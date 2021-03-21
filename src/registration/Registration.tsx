@@ -1,20 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
-const Registration = (): JSX.Element => {
-  const history = useHistory();
+import styles from '@/Registration/style.scss';
 
-  return (
-    <button
-      type="button"
-      onClick={() => {
-        history.push('/login');
-      }}
-    >
-      Registration
-    </button>
-  );
-};
+import RegistrationForm from './RegistrationForm';
 
-export default connect(null, null)(Registration);
+const Registration = (): JSX.Element => (
+  <React.Fragment>
+    <div className={styles['authorization-wrapper']}>
+      <RegistrationForm />
+    </div>
+  </React.Fragment>
+);
+
+export default Registration;
