@@ -9,6 +9,7 @@ import Authorization from '@/authorization/Authorization';
 import MainPage from '@/components/MainPage/MainPage';
 import Registration from '@/registration/Registration';
 
+import TextBook from './components/TextBook/TextBook';
 import { AppProps } from './types/props.types';
 import { State } from './types/states.types';
 
@@ -50,7 +51,7 @@ const App = ({ isAuth }: AppProps) => {
         {isAuth ? (
           <React.Fragment>
             <Route path="/home">
-              <MainPage />
+              <TextBook />
             </Route>
             <Route push path="/test">
               <div>TEST PAGE</div>
@@ -65,7 +66,7 @@ const App = ({ isAuth }: AppProps) => {
 };
 
 const mapStateToProps = (state: State): AppProps => ({
-  isAuth: state.authReducer.auth,
+  isAuth: state.authReducer!.auth,
 });
 
 export default connect(mapStateToProps, null)(App);

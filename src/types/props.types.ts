@@ -7,4 +7,16 @@ interface AuthorizationProps {
   authAction: AnyActionCreator;
 }
 
-export { AppProps, AuthorizationProps };
+interface TextBookProps {
+  burgerIsActive?: boolean;
+  showBurgerMenuAction?: AnyActionCreator;
+  hideBurgerMenuAction?: AnyActionCreator;
+}
+
+interface BurgerMenuProps {
+  burgerIsActive?: boolean;
+}
+
+export {
+  AppProps, AuthorizationProps, TextBookProps, BurgerMenuProps,
+};

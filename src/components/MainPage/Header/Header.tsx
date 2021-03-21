@@ -7,7 +7,9 @@ import styles from './style.scss';
 const Header = (): JSX.Element => (
   <div className={styles['header']}>
     <div className={styles['logo-container']}>
-      <Logo />
+      <a href="#preview">
+        <Logo />
+      </a>
     </div>
     <nav className={styles['header-navbar']}>
       <ul className={styles['header-navbar-list']}>

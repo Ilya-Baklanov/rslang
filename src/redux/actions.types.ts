@@ -14,6 +14,8 @@ interface Actions {
   quitAction?: AnyActionCreator;
   showLoaderAction?: AnyActionCreator;
   hideLoaderAction?: AnyActionCreator;
+  showBurgerMenuAction?: AnyActionCreator;
+  hideBurgerMenuAction?: AnyActionCreator;
   testAction?: TestActionCreator;
 }
 

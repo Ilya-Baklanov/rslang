@@ -1,0 +1,35 @@
+.burger-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  left: 0px;
+  transform: translateX(-60px);
+  transition: transform 0.5s ease-in-out;
+  width: 200px;
+  @media (max-width: 1080px) {
+    position: relative;
+    display: none;
+    width: 100%;
+  }
+}
+
+.burger-wrapper_active {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-around;
+  position: absolute;
+  left: 0px;
+  transform: translateX(0px);
+  transition: transform 0.5s ease-in-out;
+  width: 200px;
+  @media (max-width: 1080px) {
+    position: relative;
+    display: flex;
+    width: 100%;
+    left: unset;
+    transform: none;
+  }
+}
