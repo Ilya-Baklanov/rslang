@@ -1,5 +1,6 @@
 interface State {
-  authReducer: AuthReducerState;
+  authReducer?: AuthReducerState;
+  burgerMenuReducer?: BurgerReducerState;
 }
 
 interface AuthReducerState {
@@ -10,4 +11,10 @@ interface LoaderReducerState {
   isLoading: boolean;
 }
 
-export { State, AuthReducerState, LoaderReducerState };
+interface BurgerReducerState {
+  burgerIsActive: boolean;
+}
+
+export {
+  State, AuthReducerState, LoaderReducerState, BurgerReducerState,
+};
