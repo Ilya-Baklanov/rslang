@@ -1,6 +1,6 @@
 import React from 'react';
 
-import styles from '@/Registration/style.scss';
+import styles from '@/registration/style.scss';
 
 import RegistrationForm from './RegistrationForm';
 

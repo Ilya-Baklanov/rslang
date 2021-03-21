@@ -5,9 +5,9 @@ import {
 } from 'react-router-dom';
 
 import {} from './redux/actions';
-import Authorization from '@/Authorization/Authorization';
-import Registration from '@/Registration/Registration';
+import Authorization from '@/authorization/Authorization';
 import MainPage from '@/components/MainPage/MainPage';
+import Registration from '@/registration/Registration';
 
 import { AppProps } from './types/props.types';
 import { State } from './types/states.types';

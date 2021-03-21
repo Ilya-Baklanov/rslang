@@ -3,7 +3,7 @@ import { Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import styles from '@/Authorization/style.scss';
+import styles from '@/authorization/style.scss';
 import { authAction } from '@/redux/actions';
 import { Actions } from '@/redux/actions.types';
 import { AuthorizationProps } from '@/types/props.types';
