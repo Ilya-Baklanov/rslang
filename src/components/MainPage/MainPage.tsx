@@ -1,5 +1,7 @@
 import React from 'react';
 
+import StartLearning from '../UI/buttons/StartLearning';
+
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
 import styles from './style.scss';
@@ -11,7 +13,9 @@ const MainPage = (): JSX.Element => (
         <Header />
       </header>
       <main className={styles['main']}>
-        <div className={styles['preview']}>Preview</div>
+        <div className={styles['preview']} id="preview">
+          <StartLearning />
+        </div>
         <div className={styles['description']} id="description">
           особенности
         </div>
