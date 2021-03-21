@@ -3,9 +3,9 @@ import { Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-import styles from '@/Registration/style.scss';
 import { authAction } from '@/redux/actions';
 import { Actions } from '@/redux/actions.types';
+import styles from '@/registration/style.scss';
 import { AuthorizationProps } from '@/types/props.types';
 
 const RegistrationForm = ({ authAction }: AuthorizationProps) => {
