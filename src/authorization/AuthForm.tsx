@@ -37,7 +37,7 @@ const AuthForm = ({ authAction }: AuthorizationProps): JSX.Element => {
       <div className={styles['login-page-wrapper']}>
         <div className={styles['authorization']}>
           <div className={styles['form-wrapper']} id="form-login">
-            <h1 className={styles['form-title']}>Travel-App</h1>
+            <h1 className={styles['form-title']}>RS-Lang</h1>
             <Form
               noValidate
               validated={validated}
