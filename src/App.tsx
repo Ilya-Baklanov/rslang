@@ -5,8 +5,9 @@ import {
 } from 'react-router-dom';
 
 import {} from './redux/actions';
-import Authorization from '@/authorization/Authorization';
-import Registration from '@/registration/Registration';
+import Authorization from '@/Authorization/Authorization';
+import Registration from '@/Registration/Registration';
+import MainPage from '@/components/MainPage/MainPage';
 
 import { AppProps } from './types/props.types';
 import { State } from './types/states.types';
@@ -36,9 +37,7 @@ const App = ({ isAuth }: AppProps) => {
   return (
     <BrowserRouter basename="#">
       <Switch>
-        <Route path="/guest">
-          {isAuth ? <Redirect to="/home" /> : <div>YOU dont authorization / GUEST</div>}
-        </Route>
+        <Route path="/guest">{isAuth ? <Redirect to="/home" /> : <MainPage />}</Route>
         <Route exact path="/">
           <RouteHome />
         </Route>
@@ -51,7 +50,7 @@ const App = ({ isAuth }: AppProps) => {
         {isAuth ? (
           <React.Fragment>
             <Route path="/home">
-              <div>HOME PAGE</div>
+              <MainPage />
             </Route>
             <Route push path="/test">
               <div>TEST PAGE</div>

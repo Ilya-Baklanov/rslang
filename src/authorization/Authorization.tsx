@@ -1,38 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 
-import { authAction } from '@/redux/actions';
-import { Actions } from '@/redux/actions.types';
-import { AuthorizationProps } from '@/types/props.types';
+import styles from '@/Authorization/style.scss';
 
-const Authorization = ({ authAction }: AuthorizationProps): JSX.Element => {
-  const history = useHistory();
+import AuthForm from './AuthForm';
 
-  return (
-    <React.Fragment>
-      <button
-        type="button"
-        onClick={() => {
-          authAction();
-        }}
-      >
-        Auth
-      </button>
-      <button
-        type="button"
-        onClick={() => {
-          history.push('/registration');
-        }}
-      >
-        Registration
-      </button>
-    </React.Fragment>
-  );
-};
+const Authorization = (): JSX.Element => (
+  <React.Fragment>
+    <div className={styles['authorization-wrapper']}>
+      <AuthForm />
+    </div>
+  </React.Fragment>
+);
 
-const mapDispatchToProps: Actions = {
-  authAction,
-};
-
-export default connect(null, mapDispatchToProps)(Authorization);
+export default Authorization;
