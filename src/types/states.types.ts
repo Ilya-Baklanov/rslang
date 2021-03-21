@@ -10,4 +10,10 @@ interface LoaderReducerState {
   isLoading: boolean;
 }
 
-export { State, AuthReducerState, LoaderReducerState };
+interface RegistrationReducerState {
+  isRegistration: boolean;
+}
+
+export {
+  State, AuthReducerState, LoaderReducerState, RegistrationReducerState,
+};

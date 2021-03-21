@@ -8,6 +8,8 @@ import { Actions } from '@/redux/actions.types';
 import styles from '@/registration/style.scss';
 import { AuthorizationProps } from '@/types/props.types';
 
+// import createUser from '../utils/registration';
+
 const RegistrationForm = ({ authAction }: AuthorizationProps) => {
   const [validated, setValidated] = useState(false);
   const history = useHistory();
