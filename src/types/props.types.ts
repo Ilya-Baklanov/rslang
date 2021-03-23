@@ -7,6 +7,10 @@ interface AuthorizationProps {
   authAction: AnyActionCreator;
 }
 
+interface QuitActionProps {
+  quitAction: AnyActionCreator;
+}
+
 interface TextBookProps {
   burgerIsActive?: boolean;
   showBurgerMenuAction?: AnyActionCreator;
@@ -18,5 +22,5 @@ interface BurgerMenuProps {
 }
 
 export {
-  AppProps, AuthorizationProps, TextBookProps, BurgerMenuProps,
+  AppProps, AuthorizationProps, TextBookProps, BurgerMenuProps, QuitActionProps,
 };

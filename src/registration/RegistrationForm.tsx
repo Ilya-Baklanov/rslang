@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -6,24 +6,26 @@ import { useHistory } from 'react-router-dom';
 import { authAction } from '@/redux/actions';
 import { Actions } from '@/redux/actions.types';
 import styles from '@/registration/style.scss';
-import { AuthorizationProps } from '@/types/props.types';
 
-const RegistrationForm = ({ authAction }: AuthorizationProps) => {
+import Auth from '../utils/Authorization/authEvents';
+
+const RegistrationForm = () => {
   const [validated, setValidated] = useState(false);
   const history = useHistory();
+
+  const auth = new Auth();
 
   const loginHandler = () => {
     history.push('/login');
   };
 
+  useEffect(() => {
+    auth.goSignUp();
+  });
+
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    const form = event.currentTarget;
-    if (form.checkValidity()) {
-      authAction();
-      history.push('/home');
-    }
     setValidated(true);
   };
 
@@ -71,7 +73,7 @@ const RegistrationForm = ({ authAction }: AuthorizationProps) => {
                 <Form.Control.Feedback>Готово!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">Введите корректное имя</Form.Control.Feedback>
               </Form.Group>
-              <Form.Group>
+              {/* <Form.Group>
                 <Form.Label htmlFor="login" className={styles['form__label']}>
                   Фамилия:
                 </Form.Label>
@@ -86,7 +88,7 @@ const RegistrationForm = ({ authAction }: AuthorizationProps) => {
                 <Form.Control.Feedback type="invalid">
                   Введит корректную фамилию
                 </Form.Control.Feedback>
-              </Form.Group>
+              </Form.Group> */}
               <Form.Group>
                 <Form.Label htmlFor="login" className={styles['form__label']}>
                   Электронная почта:

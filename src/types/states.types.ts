@@ -1,14 +1,22 @@
+import { AuthData } from '@/redux/actions.types';
+
 interface State {
   authReducer?: AuthReducerState;
+  registrationReducer?: RegistrationReducerState;
   burgerMenuReducer?: BurgerReducerState;
 }
 
 interface AuthReducerState {
   auth: boolean;
+  authData: AuthData;
 }
 
 interface LoaderReducerState {
   isLoading: boolean;
+}
+
+interface RegistrationReducerState {
+  isRegistration: boolean;
 }
 
 interface BurgerReducerState {
@@ -16,5 +24,9 @@ interface BurgerReducerState {
 }
 
 export {
-  State, AuthReducerState, LoaderReducerState, BurgerReducerState,
+  State,
+  AuthReducerState,
+  LoaderReducerState,
+  RegistrationReducerState,
+  BurgerReducerState,
 };

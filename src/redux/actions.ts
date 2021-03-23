@@ -1,18 +1,25 @@
 import { AnyAction } from 'redux';
 
-import { TestActionCreator, TestAction } from '@/redux/actions.types';
+import {
+  TestActionCreator,
+  TestAction,
+  AuthAction,
+  AuthActionCreator,
+} from '@/redux/actions.types';
 
 import {
   LOADER_OFF,
   LOADER_ON,
   LOGIN,
   QUIT,
+  REGISTRATION_SUCCESS,
   BURGER_ACTIVATED,
   BURGER_INACTIVATED,
 } from './constants';
 
-const authAction = (): AnyAction => ({
+const authAction: AuthActionCreator = (authData): AuthAction => ({
   type: LOGIN,
+  payload: authData,
 });
 
 const quitAction = (): AnyAction => ({
@@ -40,11 +47,16 @@ const testAction: TestActionCreator = (testPayload): TestAction => ({
   payload: testPayload,
 });
 
+const registrationSuccess = (): AnyAction => ({
+  type: REGISTRATION_SUCCESS,
+});
+
 export {
   authAction,
   quitAction,
   showLoaderAction,
   hideLoaderAction,
+  registrationSuccess,
   showBurgerMenuAction,
   hideBurgerMenuAction,
   testAction,
