@@ -6,6 +6,8 @@ import { Actions } from '@/redux/actions.types';
 import { TextBookProps } from '@/types/props.types';
 import { State } from '@/types/states.types';
 
+import QuitButton from '../MainPage/Header/QuitButton';
+
 import BurgerMenu from './BurgerMenu/BurgerMenu';
 import styles from './style.scss';
 
@@ -20,6 +22,7 @@ const TextBook = ({
     </button>
     <div className={burgerIsActive ? styles['burger-wrapper_active'] : styles['burger-wrapper']}>
       <BurgerMenu />
+      <QuitButton />
     </div>
     TEXT BOOK
   </div>

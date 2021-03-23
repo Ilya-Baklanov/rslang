@@ -31,3 +31,5 @@ const Root = () => (
 );
 
 ReactDOM.render(<Root />, document.getElementById('app'));
+
+export default store;

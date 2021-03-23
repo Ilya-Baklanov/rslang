@@ -1,4 +1,4 @@
-import React, { useState, FormEvent } from 'react';
+import React, { useState, FormEvent, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
@@ -6,16 +6,22 @@ import { useHistory } from 'react-router-dom';
 import styles from '@/authorization/style.scss';
 import { authAction } from '@/redux/actions';
 import { Actions } from '@/redux/actions.types';
-import { AuthorizationProps } from '@/types/props.types';
+import Auth from '@/utils/Authorization/authEvents';
 
-const AuthForm = ({ authAction }: AuthorizationProps): JSX.Element => {
+const AuthForm = (): JSX.Element => {
   const [validated, setValidated] = useState(false);
 
   const history = useHistory();
 
+  const auth = new Auth();
+
   const registrationHandler = () => {
     history.push('/registration');
   };
+
+  useEffect(() => {
+    auth.goLogin();
+  });
 
   const guestHandler = () => {
     history.push('/guest');
@@ -24,11 +30,6 @@ const AuthForm = ({ authAction }: AuthorizationProps): JSX.Element => {
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     event.stopPropagation();
-    const form = event.currentTarget;
-    if (form.checkValidity()) {
-      authAction();
-      history.push('/home');
-    }
     setValidated(true);
   };
 
