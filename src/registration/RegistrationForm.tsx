@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import React, { FormEvent, useState, useEffect } from 'react';
 import { Button, Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
@@ -73,22 +74,11 @@ const RegistrationForm = () => {
                 <Form.Control.Feedback>Готово!</Form.Control.Feedback>
                 <Form.Control.Feedback type="invalid">Введите корректное имя</Form.Control.Feedback>
               </Form.Group>
-              {/* <Form.Group>
-                <Form.Label htmlFor="login" className={styles['form__label']}>
-                  Фамилия:
-                </Form.Label>
-                <Form.Control
-                  className={styles['form__input']}
-                  required
-                  type="text"
-                  placeholder="Иванов"
-                  id="user-surname"
-                />
-                <Form.Control.Feedback>Готово!</Form.Control.Feedback>
-                <Form.Control.Feedback type="invalid">
-                  Введит корректную фамилию
-                </Form.Control.Feedback>
-              </Form.Group> */}
+              <Form.Group>
+                <Form id="formElem">
+                  <input type="file" name="avatar" className={styles['avatar-img']} />
+                </Form>
+              </Form.Group>
               <Form.Group>
                 <Form.Label htmlFor="login" className={styles['form__label']}>
                   Электронная почта:
@@ -129,6 +119,7 @@ const RegistrationForm = () => {
                   Зарегистрироваться
                 </Button>
               </div>
+              <div className={styles['errorServ']} id="errImg" />
               <div className={styles['errorServ']} id="errServ" />
             </Form>
           </div>
