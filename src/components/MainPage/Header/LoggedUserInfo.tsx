@@ -1,36 +1,35 @@
-// import React, { useState, useEffect } from 'react';
+/* eslint-disable @typescript-eslint/no-floating-promises */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import React, { useState, useEffect } from 'react';
 
-// import { FirebaseDB } from '../../../utils/FirebaseDB/FirebaseDB';
+import getUserInfo from '@/utils/getUserInfo';
 
-// import styles from '@/components/home/style.scss';
+import styles from './style.scss';
 
-// const LoggedUserInfo = () => {
-//   const firebaseDB = new FirebaseDB();
-//   const [userInfo, setUserInfo] = useState({});
+const LoggedUserInfo = () => {
+  const [userInfo, setUserInfo] = useState({});
 
-//   const getUserInfo = async () => {
-//     await firebaseDB.getData('Users').then((data) => {
-//       let loggedUserInfo = data.find(({ id }) => id === localStorage.getItem('uidTravel'));
-//       setUserInfo(loggedUserInfo);
-//     });
-//   };
+  const token = localStorage.getItem('token');
+  const userId = localStorage.getItem('userId');
 
-//   useEffect(() => {
-//     getUserInfo()
-//   }, [])
+  const getUserData = (token: string, userId: string) => {
+    getUserInfo(token, userId).then(content => {
+      setUserInfo(content);
+    });
+  };
 
-//   return (
-//     <div className={styles['userInfo']}>
-//       <img
-//           src={`../../../assets/image/avatar.svg`}
-//           alt={`User image not found`}
-//         />
-//       <div className={styles['userName']}>
-//         <div className={styles['firstName']}>{userInfo.firstName}</div>
-//         <div className={styles['secondName']}>{userInfo.secondName}</div>
-//       </div>
-//     </div>
-//   );
-// };
+  useEffect(() => {
+    getUserData(token || '', userId || '');
+  }, []);
 
-// export default LoggedUserInfo;
+  return (
+    <div className={styles['userInfo']}>
+      <img src={userInfo['photo']} alt="User is not found" />
+      <div className={styles['userName']}>
+        <div className={styles['firstName']}>{userInfo['name']}</div>
+      </div>
+    </div>
+  );
+};
+
+export default LoggedUserInfo;

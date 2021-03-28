@@ -9,6 +9,8 @@ import { TextBookProps } from '@/types/props.types';
 import { State } from '@/types/states.types';
 
 import Footer from '../MainPage/Footer/Footer';
+import LoggedUserInfo from '../MainPage/Header/LoggedUserInfo';
+import QuitButton from '../MainPage/Header/QuitButton';
 
 import BurgerMenu from './BurgerMenu/BurgerMenu';
 import Header from './Header/Header';
@@ -24,6 +26,8 @@ const TextBook = ({ burgerIsActive, hideBurgerMenuAction }: TextBookProps): JSX.
     <main className={styles['text-book-main']}>
       <div className={burgerIsActive ? styles['burger-wrapper_active'] : styles['burger-wrapper']}>
         <BurgerMenu />
+        <LoggedUserInfo />
+        <QuitButton />
       </div>
       <div className={styles['main-wrapper']}>
         <div className={styles['main-container']}>

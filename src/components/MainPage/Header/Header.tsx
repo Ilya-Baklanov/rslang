@@ -2,6 +2,7 @@ import React from 'react';
 
 import Logo from '@/components/UI/Logo/Logo';
 
+import GuestUserInfo from './GuestUserInfo';
 import styles from './style.scss';
 
 const Header = (): JSX.Element => (
@@ -28,6 +29,7 @@ const Header = (): JSX.Element => (
         <li>
           <a href="#statistics">Статистика</a>
         </li>
+        <GuestUserInfo />
         <li>
           <a href="-">Войти</a>
         </li>
