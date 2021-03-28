@@ -10,7 +10,7 @@ import { State } from '@/types/states.types';
 
 import Footer from '../MainPage/Footer/Footer';
 import LoggedUserInfo from '../MainPage/Header/LoggedUserInfo';
-import QuitButton from '../MainPage/Header/QuitButton';
+import QuitButton from '../UI/buttons/QuitButton';
 
 import BurgerMenu from './BurgerMenu/BurgerMenu';
 import Header from './Header/Header';
