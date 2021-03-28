@@ -1,32 +1,64 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
+import { showBurgerMenuAction, hideBurgerMenuAction } from '@/redux/actions';
+import { Actions } from '@/redux/actions.types';
 import { BurgerMenuProps } from '@/types/props.types';
 import { State } from '@/types/states.types';
 
+import BurgerMenuItem from './BurgerMenuItem';
 import styles from './style.scss';
 
-const BurgerMenu = ({ burgerIsActive }: BurgerMenuProps): JSX.Element => (
+const BurgerMenu = ({
+  burgerIsActive,
+  showBurgerMenuAction,
+  hideBurgerMenuAction,
+}: BurgerMenuProps): JSX.Element => (
   <div className={styles['burger-menu-wrapper']}>
+    <button
+      className={
+        burgerIsActive ? styles['burger-menu-button_active'] : styles['burger-menu-button']
+      }
+      type="button"
+      onClick={burgerIsActive ? hideBurgerMenuAction : showBurgerMenuAction}
+    >
+      <img
+        className={styles['burger-menu-icon']}
+        src="../../../assets/image/burger-menu_icon.png"
+        alt="menu"
+      />
+    </button>
     <nav className={styles['burger-menu-navbar']}>
       <ul className={styles['burger-menu-navbar-list']}>
         <li>
-          <a href="#progress">{burgerIsActive ? 'Прогресс' : 'П'}</a>
+          <a href="#/home/progress">
+            <BurgerMenuItem sectionName="Прогресс" />
+          </a>
         </li>
         <li>
-          <a href="#dictionary">Словарь</a>
+          <a href="#/home/dictionary">
+            <BurgerMenuItem sectionName="Словарь" />
+          </a>
         </li>
         <li>
-          <a href="#mini-game">Мини-игры</a>
+          <a href="#/home/mini-games">
+            <BurgerMenuItem sectionName="Мини-игры" />
+          </a>
         </li>
         <li>
-          <a href="#statistics">Статистика</a>
+          <a href="#/home/statistics">
+            <BurgerMenuItem sectionName="Статистика" />
+          </a>
         </li>
         <li>
-          <a href="#settings">Настройки</a>
+          <a href="#/home/settings">
+            <BurgerMenuItem sectionName="Настройки" />
+          </a>
         </li>
         <li>
-          <a href="#developers">Разработчики</a>
+          <a href="#/home/developers">
+            <BurgerMenuItem sectionName="Разработчики" />
+          </a>
         </li>
       </ul>
     </nav>
@@ -37,4 +69,9 @@ const mapStateToProps = (state: State): BurgerMenuProps => ({
   burgerIsActive: state.burgerMenuReducer!.burgerIsActive,
 });
 
-export default connect(mapStateToProps, null)(BurgerMenu);
+const mapDispatchToProps: Actions = {
+  showBurgerMenuAction,
+  hideBurgerMenuAction,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(BurgerMenu);

@@ -13,12 +13,14 @@ interface QuitActionProps {
 
 interface TextBookProps {
   burgerIsActive?: boolean;
-  showBurgerMenuAction?: AnyActionCreator;
   hideBurgerMenuAction?: AnyActionCreator;
 }
 
 interface BurgerMenuProps {
   burgerIsActive?: boolean;
+  sectionName?: string;
+  showBurgerMenuAction?: AnyActionCreator;
+  hideBurgerMenuAction?: AnyActionCreator;
 }
 
 export {

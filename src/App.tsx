@@ -53,9 +53,6 @@ const App = ({ isAuth }: AppProps) => {
             <Route path="/home">
               <TextBook />
             </Route>
-            <Route push path="/test">
-              <div>TEST PAGE</div>
-            </Route>
           </React.Fragment>
         ) : (
           <Redirect to="/login" />
