@@ -9,6 +9,7 @@ import { TextBookProps } from '@/types/props.types';
 import { State } from '@/types/states.types';
 
 import Footer from '../MainPage/Footer/Footer';
+import GuestUserInfo from '../MainPage/Header/GuestUserInfo';
 import LoggedUserInfo from '../MainPage/Header/LoggedUserInfo';
 import QuitButton from '../UI/buttons/QuitButton';
 
@@ -17,7 +18,7 @@ import Header from './Header/Header';
 import Main from './Main/Main';
 import styles from './style.scss';
 
-const TextBook = ({ burgerIsActive, hideBurgerMenuAction }: TextBookProps): JSX.Element => (
+const TextBook = ({ burgerIsActive, hideBurgerMenuAction, isAuth }: TextBookProps): JSX.Element => (
   <div className={styles['text-book-wrapper']}>
     <header className={styles['text-book-header']}>
       <Header />
@@ -26,7 +27,7 @@ const TextBook = ({ burgerIsActive, hideBurgerMenuAction }: TextBookProps): JSX.
     <main className={styles['text-book-main']}>
       <div className={burgerIsActive ? styles['burger-wrapper_active'] : styles['burger-wrapper']}>
         <BurgerMenu />
-        <LoggedUserInfo />
+        {isAuth ? <LoggedUserInfo /> : <GuestUserInfo />}
         <QuitButton />
       </div>
       <div className={styles['main-wrapper']}>
@@ -51,6 +52,7 @@ const TextBook = ({ burgerIsActive, hideBurgerMenuAction }: TextBookProps): JSX.
 
 const mapStateToProps = (state: State): TextBookProps => ({
   burgerIsActive: state.burgerMenuReducer!.burgerIsActive,
+  isAuth: state.authReducer!.auth,
 });
 
 const mapDispatchToProps: Actions = {

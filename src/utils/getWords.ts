@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-return */
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
+import { Words } from '@/types/response.types';
 
-const getWords = async (page: number, group: number): Promise<[]> => {
+const getWords = async (page: number, group: number): Promise<Words> => {
   const rawResponse = await fetch(
     `https://reat-learnwords.herokuapp.com/words?page=${page}&group=${group}`,
     {
@@ -13,7 +11,7 @@ const getWords = async (page: number, group: number): Promise<[]> => {
       },
     }
   );
-  const content = await rawResponse.json();
+  const content = <Words> await rawResponse.json();
 
   return content;
 };

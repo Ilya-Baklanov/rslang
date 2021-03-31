@@ -18,7 +18,7 @@ const App = ({ isAuth }: AppProps) => {
     if (isAuth) {
       return <Redirect to="/home" />;
     }
-    return <Redirect to="/guest" />;
+    return <Redirect to="/rs-lang/preview" />;
   };
 
   const RouteLogin = () => {
@@ -38,7 +38,20 @@ const App = ({ isAuth }: AppProps) => {
   return (
     <BrowserRouter basename="#">
       <Switch>
-        <Route path="/guest">{isAuth ? <Redirect to="/home" /> : <MainPage />}</Route>
+        <Route path="/rs-lang">
+          {isAuth ? (
+            <Redirect to="/home" />
+          ) : (
+            <React.Fragment>
+              <Route path="/rs-lang/preview">
+                <MainPage />
+              </Route>
+              <Route path="/rs-lang/guest">
+                <TextBook />
+              </Route>
+            </React.Fragment>
+          )}
+        </Route>
         <Route exact path="/">
           <RouteHome />
         </Route>
