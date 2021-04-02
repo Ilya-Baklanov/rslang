@@ -1,0 +1,18 @@
+@import '../gameContainer/GameContainer.scss';
+.game-counter {
+  position: absolute;
+  text-align: center;
+  top: 0;
+  left: 0;
+  color: $game-border-color;
+  font-weight: bold;
+  line-height: 25px;
+}
+
+.game-counter-label {
+  text-transform: uppercase;
+}
+
+.game-counter-count {
+  font-size: 35px;
+}

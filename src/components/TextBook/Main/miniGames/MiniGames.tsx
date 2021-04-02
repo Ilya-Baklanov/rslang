@@ -2,7 +2,7 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 
 import AudioCall from './audioCall/AudioCall';
-import OwnGame from './ownGame/OwnGame';
+import AudioReply from './audioReply/AudioReply';
 import Savannah from './savannah/Savannah';
 import Sprint from './sprint/Sprint';
 
@@ -11,8 +11,8 @@ const MiniGames = (): JSX.Element => (
     <Route path="/home/mini-games/audio-call">
       <AudioCall />
     </Route>
-    <Route path="/home/mini-games/own-game">
-      <OwnGame />
+    <Route path="/home/mini-games/audio-reply">
+      <AudioReply />
     </Route>
     <Route path="/home/mini-games/savannah">
       <Savannah />
