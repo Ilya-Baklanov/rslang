@@ -6,7 +6,7 @@ import { MiniGamesProps } from '@/types/props.types';
 import { State } from '@/types/states.types';
 
 import AudioCall from './audioCall/AudioCall';
-import OwnGame from './ownGame/OwnGame';
+import AudioReply from './audioReply/AudioReply';
 import Savannah from './savannah/Savannah';
 import Sprint from './sprint/Sprint';
 

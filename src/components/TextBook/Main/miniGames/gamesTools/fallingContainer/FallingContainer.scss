@@ -1,0 +1,17 @@
+.falling-container {
+  position: absolute;
+  left: 0;
+  right: 0;
+  animation: 5s linear infinite;
+  animation-name: falling;
+}
+
+@keyframes falling {
+  from {
+    top: 0;
+  }
+
+  to {
+    top: 100%;
+  }
+}

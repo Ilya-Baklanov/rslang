@@ -1,0 +1,16 @@
+$game-border-color: #fffbe6;
+$game-border-shadow-background: #ffdf33;
+$game-background: #1e1e1e;
+
+.gameplay-container {
+  width: 100%;
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-content: center;
+  overflow: hidden;
+  text-align: center;
+  color: white;
+}
