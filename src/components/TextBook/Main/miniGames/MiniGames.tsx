@@ -19,7 +19,7 @@ const MiniGames = ({ isAuth }: MiniGamesProps): JSX.Element => {
         <AudioCall />
       </Route>
       <Route path={`${currentLocation}/mini-games/own-game`}>
-        <OwnGame />
+        <AudioReply />
       </Route>
       <Route path={`${currentLocation}/mini-games/savannah`}>
         <Savannah />
