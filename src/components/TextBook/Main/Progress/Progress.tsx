@@ -1,5 +1,12 @@
 import React from 'react';
 
-const Progress = (): JSX.Element => <div>Progress</div>;
+import LearnNewWord from './LearnNewWord';
+
+const Progress = (): JSX.Element => (
+  <React.Fragment>
+    <div>Progress</div>
+    <LearnNewWord />
+  </React.Fragment>
+);
 
 export default Progress;

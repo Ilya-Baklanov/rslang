@@ -24,7 +24,7 @@ const AuthForm = (): JSX.Element => {
   });
 
   const guestHandler = () => {
-    history.push('/guest');
+    history.push('/rs-lang/guest');
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {

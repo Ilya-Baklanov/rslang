@@ -1,26 +1,38 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Route } from 'react-router-dom';
+
+import { MiniGamesProps } from '@/types/props.types';
+import { State } from '@/types/states.types';
 
 import AudioCall from './audioCall/AudioCall';
 import AudioReply from './audioReply/AudioReply';
 import Savannah from './savannah/Savannah';
 import Sprint from './sprint/Sprint';
 
-const MiniGames = (): JSX.Element => (
-  <div>
-    <Route path="/home/mini-games/audio-call">
-      <AudioCall />
-    </Route>
-    <Route path="/home/mini-games/audio-reply">
-      <AudioReply />
-    </Route>
-    <Route path="/home/mini-games/savannah">
-      <Savannah />
-    </Route>
-    <Route path="/home/mini-games/sprint">
-      <Sprint />
-    </Route>
-  </div>
-);
+const MiniGames = ({ isAuth }: MiniGamesProps): JSX.Element => {
+  const currentLocation = isAuth ? '/home' : '/rs-lang/guest';
 
-export default MiniGames;
+  return (
+    <div>
+      <Route path={`${currentLocation}/mini-games/audio-call`}>
+        <AudioCall />
+      </Route>
+      <Route path={`${currentLocation}/mini-games/own-game`}>
+        <OwnGame />
+      </Route>
+      <Route path={`${currentLocation}/mini-games/savannah`}>
+        <Savannah />
+      </Route>
+      <Route path={`${currentLocation}/mini-games/sprint`}>
+        <Sprint />
+      </Route>
+    </div>
+  );
+};
+
+const mapStateToProps = (state: State): MiniGamesProps => ({
+  isAuth: state.authReducer!.auth,
+});
+
+export default connect(mapStateToProps, null)(MiniGames);

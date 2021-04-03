@@ -1,5 +1,9 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { Route, Redirect } from 'react-router-dom';
+
+import { MainContentProps } from '@/types/props.types';
+import { State } from '@/types/states.types';
 
 import Developers from './Developers/Developers';
 import Dictionary from './Dictionary/Dictionary';
@@ -10,29 +14,37 @@ import MiniGames from './miniGames/MiniGames';
 import MiniGamesCards from './miniGames/MiniGamesCards';
 import styles from './style.scss';
 
-const Main = (): JSX.Element => (
-  <div className={styles['main']}>
-    <Redirect to="/home/progress" />
-    <Route path="/home/progress">
-      <Progress />
-    </Route>
-    <Route path="/home/dictionary">
-      <Dictionary />
-    </Route>
-    <Route path="/home/mini-games">
-      <MiniGamesCards />
-      <MiniGames />
-    </Route>
-    <Route path="/home/statistics">
-      <Statistics />
-    </Route>
-    <Route path="/home/settings">
-      <Settings />
-    </Route>
-    <Route path="/home/developers">
-      <Developers />
-    </Route>
-  </div>
-);
+const Main = ({ isAuth }: MainContentProps): JSX.Element => {
+  const currentLocation = isAuth ? '/home' : '/rs-lang/guest';
 
-export default Main;
+  return (
+    <div className={styles['main']}>
+      <Redirect to={`${currentLocation}/progress`} />
+      <Route path={`${currentLocation}/progress`}>
+        <Progress />
+      </Route>
+      <Route path={`${currentLocation}/dictionary`}>
+        <Dictionary />
+      </Route>
+      <Route path={`${currentLocation}/mini-games`}>
+        <MiniGamesCards />
+        <MiniGames />
+      </Route>
+      <Route path={`${currentLocation}/statistics`}>
+        <Statistics />
+      </Route>
+      <Route path={`${currentLocation}/settings`}>
+        <Settings />
+      </Route>
+      <Route path={`${currentLocation}/developers`}>
+        <Developers />
+      </Route>
+    </div>
+  );
+};
+
+const mapStateToProps = (state: State): MainContentProps => ({
+  isAuth: state.authReducer!.auth,
+});
+
+export default connect(mapStateToProps, null)(Main);
