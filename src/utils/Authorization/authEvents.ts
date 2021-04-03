@@ -12,6 +12,7 @@ import { authAction } from '@/redux/actions';
 import { AuthData } from '@/redux/actions.types';
 
 import getAvatar from '../getAvatar';
+import postStatistic from '../postStatistic';
 import createUser from '../registration';
 import loginUser from '../signIn';
 
@@ -94,6 +95,16 @@ export default class Auth {
                 localStorage.setItem('userId', userId);
                 localStorage.setItem('token', token);
                 store.dispatch(authAction(authJson));
+
+                postStatistic({
+                  learnedWords: 0,
+                  optional: {
+                    currentGroup: 0,
+                    currentPage: 0,
+                  },
+                })
+                  .then(() => console.log('success'))
+                  .catch(err => console.log(err));
               })
               .catch(er => {
                 localStorage.setItem('isAuth', 'false');

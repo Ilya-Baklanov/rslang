@@ -24,6 +24,28 @@ interface UserWord {
 
 type UserWords = UserWord[];
 
+interface AggregatedWord extends Word {
+  _id: string;
+  userWord: UserWord;
+}
+
+interface AggregatedWords {
+  paginatedResults: AggregatedWord[];
+  totalCount: [
+    {
+      count: number;
+    }
+  ];
+}
+
+interface Statistic {
+  learnedWords: number;
+  optional: {
+    currentGroup: number;
+    currentPage: number;
+  };
+}
+
 export {
-  Word, Words, UserWord, UserWords,
+  Word, Words, UserWord, UserWords, Statistic, AggregatedWord, AggregatedWords,
 };

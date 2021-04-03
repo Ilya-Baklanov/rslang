@@ -1,11 +1,11 @@
 import React from 'react';
 
-import LearnNewWord from './LearnNewWord';
+import LearningCard from './LearningCard';
 
 const Progress = (): JSX.Element => (
   <React.Fragment>
     <div>Progress</div>
-    <LearnNewWord />
+    <LearningCard />
   </React.Fragment>
 );
 
