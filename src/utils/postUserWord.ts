@@ -1,19 +1,19 @@
 import { UserWord } from '@/types/response.types';
 
-const token = <string>localStorage.getItem('token');
-
-const postUserWord = async (userId: string, wordId: string): Promise<UserWord> => {
+const postUserWord = async (wordId: string, category: string): Promise<UserWord> => {
+  const token = <string>localStorage.getItem('token');
+  const userId = <string>localStorage.getItem('userId');
   const rawResponse: Response = await fetch(
     `https://reat-learnwords.herokuapp.com/users/${userId}/words/${wordId}`,
     {
-      method: 'GET',
+      method: 'POST',
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        difficulty: 'string',
+        difficulty: category,
         optional: {},
       }),
     }
@@ -22,12 +22,5 @@ const postUserWord = async (userId: string, wordId: string): Promise<UserWord> =
 
   return content;
 };
-
-// how to call this method:
-// postUserWord(606057e692e7e3001521564b, 573877e692e7e3001521564b).then(content => {
-//
-// })
-//   .catch(err => {
-//   });
 
 export default postUserWord;
