@@ -2,7 +2,7 @@
 /* eslint-disable no-console */
 /* eslint-disable @typescript-eslint/no-unsafe-call */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import { Chart, registerables } from 'chart.js';
+import { Chart, ChartType, registerables } from 'chart.js';
 import React, { useEffect, useRef, useState } from 'react';
 
 import { Statistic } from '@/types/response.types';
@@ -11,7 +11,7 @@ import getStatistic from '@/utils/getStatistic';
 Chart.register(...registerables);
 
 interface Config {
-  type: string;
+  type: ChartType;
   data: {
     labels: string[];
     datasets: {
