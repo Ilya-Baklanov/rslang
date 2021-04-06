@@ -1,6 +1,6 @@
 import { UserWord } from '@/types/response.types';
 
-const postUserWord = async (
+const putUserWord = async (
   wordId: string,
   category: string,
   option: Record<string, any>
@@ -10,7 +10,7 @@ const postUserWord = async (
   const rawResponse: Response = await fetch(
     `https://reat-learnwords.herokuapp.com/users/${userId}/words/${wordId}`,
     {
-      method: 'POST',
+      method: 'PUT',
       headers: {
         Authorization: `Bearer ${token}`,
         Accept: 'application/json',
@@ -27,4 +27,4 @@ const postUserWord = async (
   return content;
 };
 
-export default postUserWord;
+export default putUserWord;

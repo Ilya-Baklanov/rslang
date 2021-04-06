@@ -17,6 +17,17 @@ interface TextBookProps {
   isAuth?: boolean;
 }
 
+interface ProgressProps {
+  loaderIsActive?: boolean;
+}
+
+interface LearningCardProps {
+  filterType: string;
+  showLoaderAction?: AnyActionCreator;
+  hideLoaderAction?: AnyActionCreator;
+  loaderIsActive?: boolean;
+}
+
 interface MainContentProps {
   isAuth?: boolean;
 }
@@ -41,6 +52,8 @@ export {
   AppProps,
   AuthorizationProps,
   TextBookProps,
+  ProgressProps,
+  LearningCardProps,
   BurgerMenuProps,
   QuitActionProps,
   MainContentProps,
