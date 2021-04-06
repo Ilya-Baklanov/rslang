@@ -99,8 +99,13 @@ export default class Auth {
                 postStatistic({
                   learnedWords: 0,
                   optional: {
-                    currentGroup: 0,
-                    currentPage: 0,
+                    audioCallStats: 0,
+                    audioReplyStats: 0,
+                    sprintStats: 0,
+                    savannahStats: 0,
+                    allStats: {
+                      '': 0,
+                    },
                   },
                 })
                   .then(() => console.log('success'))

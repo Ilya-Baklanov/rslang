@@ -41,8 +41,11 @@ interface AggregatedWords {
 interface Statistic {
   learnedWords: number;
   optional: {
-    currentGroup: number;
-    currentPage: number;
+    audioCallStats: any;
+    audioReplyStats: any;
+    sprintStats: any;
+    savannahStats: any;
+    allStats: Record<string, number>;
   };
 }
 

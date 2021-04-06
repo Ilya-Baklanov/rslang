@@ -2,6 +2,7 @@ import { AuthData } from '@/redux/actions.types';
 
 interface State {
   authReducer?: AuthReducerState;
+  loaderReducer?: LoaderReducerState;
   registrationReducer?: RegistrationReducerState;
   burgerMenuReducer?: BurgerReducerState;
 }
