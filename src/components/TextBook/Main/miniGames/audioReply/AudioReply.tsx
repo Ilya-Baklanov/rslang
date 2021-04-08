@@ -22,7 +22,8 @@ function AudioReply(): JSX.Element {
       if ('webkitSpeechRecognition' in window) {
         setInvitation(inviteSpeak);
         setRecording(true);
-        const recognition = new SpeechRecognition();
+        // eslint-disable-next-line
+        const recognition: SpeechRecognition = new window['webkitSpeechRecognition']();
         recognition.lang = 'en-GB';
         recognition.start();
 
