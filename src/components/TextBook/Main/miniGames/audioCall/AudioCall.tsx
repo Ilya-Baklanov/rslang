@@ -30,11 +30,7 @@ function AudioCall(): JSX.Element {
     );
   }
 
-  return (
-    <div>
-      <GameContainer gameScreen={AudioCallGame()} controlsScreen={AudioCallControls()} />
-    </div>
-  );
+  return <GameContainer gameScreen={AudioCallGame()} controlsScreen={AudioCallControls()} />;
 }
 
 export default AudioCall;

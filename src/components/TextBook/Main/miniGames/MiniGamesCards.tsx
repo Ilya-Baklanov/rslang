@@ -19,8 +19,11 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
         >
           AudioCall
         </Link>
-        <Link className={styles['mini-games-cards']} to={`${currentLocation}/mini-games/own-game`}>
-          OwnGame
+        <Link
+          className={styles['mini-games-cards']}
+          to={`${currentLocation}/mini-games/audio-reply`}
+        >
+          AudioReply
         </Link>
         <Link className={styles['mini-games-cards']} to={`${currentLocation}/mini-games/savannah`}>
           Savannah

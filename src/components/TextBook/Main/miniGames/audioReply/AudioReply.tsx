@@ -30,6 +30,7 @@ function AudioReply(): JSX.Element {
       <div>
         <GameCounter label="СЛОВА:" count={3} />
         <HealthIndicator count={3} />
+        <WordPlate label="Слово" isBig />
       </div>
     );
   }
@@ -43,11 +44,7 @@ function AudioReply(): JSX.Element {
     );
   }
 
-  return (
-    <div>
-      <GameContainer gameScreen={AudioReplyGame()} controlsScreen={AudioReplyControls()} />
-    </div>
-  );
+  return <GameContainer gameScreen={AudioReplyGame()} controlsScreen={AudioReplyControls()} />;
 }
 
 export default AudioReply;

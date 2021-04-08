@@ -9,16 +9,17 @@ import AudioCall from './audioCall/AudioCall';
 import AudioReply from './audioReply/AudioReply';
 import Savannah from './savannah/Savannah';
 import Sprint from './sprint/Sprint';
+import styles from './style.scss';
 
 const MiniGames = ({ isAuth }: MiniGamesProps): JSX.Element => {
   const currentLocation = isAuth ? '/home' : '/rs-lang/guest';
 
   return (
-    <div>
+    <div className={styles['mini-game-container-wrapper']}>
       <Route path={`${currentLocation}/mini-games/audio-call`}>
         <AudioCall />
       </Route>
-      <Route path={`${currentLocation}/mini-games/own-game`}>
+      <Route path={`${currentLocation}/mini-games/audio-reply`}>
         <AudioReply />
       </Route>
       <Route path={`${currentLocation}/mini-games/savannah`}>

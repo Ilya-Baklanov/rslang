@@ -52,11 +52,7 @@ function Sprint(): JSX.Element {
     );
   }
 
-  return (
-    <div>
-      <GameContainer gameScreen={SprintGame(timeLeft)} controlsScreen={SprintControls()} />
-    </div>
-  );
+  return <GameContainer gameScreen={SprintGame(timeLeft)} controlsScreen={SprintControls()} />;
 }
 
 export default Sprint;
