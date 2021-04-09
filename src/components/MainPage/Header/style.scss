@@ -1,0 +1,45 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 70px;
+}
+
+.logo-container {
+  width: 10%;
+}
+
+.header-navbar {
+  width: 90%;
+}
+
+.header-navbar-list {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-navbar-list li {
+  list-style: none;
+}
+
+.userInfo {
+  display: flex;
+}
+
+.userInfo img {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+}
+
+.userName,
+.userNameGuest {
+  margin-left: 8px;
+  width: 40px;
+}
+
+.guestName {
+  margin-top: 9px;
+}
