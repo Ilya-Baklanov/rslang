@@ -16,18 +16,3 @@
 .fullscreen-icon {
   font-size: unset;
 }
-
-.recording {
-  animation: 1s linear infinite;
-  animation-name: waves;
-}
-
-@keyframes waves {
-  from {
-    box-shadow: none;
-  }
-
-  to {
-    box-shadow: 0px 0px 2px 12.5px $game-background, 0px 0px 2px 15px $game-border-color;
-  }
-}
