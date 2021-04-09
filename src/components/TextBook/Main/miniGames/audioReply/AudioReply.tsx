@@ -11,18 +11,36 @@ import aReplyStyles from './AudioReply.scss';
 
 const invitePressAndSpeak = 'Нажмите кнопку микрофона и произнесите слово';
 const inviteSpeak = 'Произнесите слово';
+const resultDisplayDelay = 1000;
 
 function AudioReply(): JSX.Element {
   const [recording, setRecording] = useState<boolean>(false);
   const [invitation, setInvitation] = useState<string>(invitePressAndSpeak);
 
   function onRecordingClick() {
-    if (recording) {
-      setInvitation(invitePressAndSpeak);
-    } else {
-      setInvitation(inviteSpeak);
+    if (!recording) {
+      if ('webkitSpeechRecognition' in window) {
+        setInvitation(inviteSpeak);
+        setRecording(true);
+        // eslint-disable-next-line
+        const recognition: SpeechRecognition = new window['webkitSpeechRecognition']();
+        recognition.lang = 'en-GB';
+        recognition.start();
+
+        recognition.onend = () => {
+          setTimeout(() => {
+            setInvitation(invitePressAndSpeak);
+            setRecording(false);
+          }, resultDisplayDelay);
+        };
+
+        recognition.onresult = (event: SpeechRecognitionEvent) => {
+          if (event.results.length > 0) {
+            setInvitation(event.results[0][0].transcript);
+          }
+        };
+      }
     }
-    setRecording(!recording);
   }
 
   function AudioReplyGame(): JSX.Element {
@@ -30,6 +48,7 @@ function AudioReply(): JSX.Element {
       <div>
         <GameCounter label="СЛОВА:" count={3} />
         <HealthIndicator count={3} />
+        <WordPlate label="Слово" isBig />
       </div>
     );
   }
@@ -43,11 +62,7 @@ function AudioReply(): JSX.Element {
     );
   }
 
-  return (
-    <div>
-      <GameContainer gameScreen={AudioReplyGame()} controlsScreen={AudioReplyControls()} />
-    </div>
-  );
+  return <GameContainer gameScreen={AudioReplyGame()} controlsScreen={AudioReplyControls()} />;
 }
 
 export default AudioReply;
