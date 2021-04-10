@@ -28,7 +28,7 @@ function Sprint(): JSX.Element {
   const [isDisplayInfo, setIsDisplayInfo] = useState(false);
   const [isCorrectVariantProposed, setIsCorrectVariantProposed] = useState(true);
   const [isRightAnswerReceived, setIsRightAnswerReceived] = useState(true);
-  const [score, setScore] = useState(0);
+  const [, /* score*/ setScore] = useState(0);
   const [currentWord, setCurrentWord] = useState(0);
   const [englishWord, setEnglishWord] = useState<string>('');
   const [russianWord, setRussianWord] = useState<string>('');
@@ -49,6 +49,7 @@ function Sprint(): JSX.Element {
   }, []);
 
   function proceedWithWord(wordNumber: number) {
+    // console.log(wordNumber);
     if (wordNumber < wordsQty) {
       // console.log(wordsList[wordNumber]);
       setEnglishWord(wordsList[wordNumber].word);
@@ -59,7 +60,7 @@ function Sprint(): JSX.Element {
       } else {
         let variant: number;
         do {
-          variant = getRandomNumber(0, wordsQty);
+          variant = getRandomNumber(0, wordsQty - 1);
         } while (variant === wordNumber);
         // console.log(
         //  `using incorrect variant! n=${variant} translation=${wordsList[variant]?.wordTranslate}`
@@ -75,20 +76,29 @@ function Sprint(): JSX.Element {
   }
 
   useEffect(() => {
+    let cleanupFunction = false;
     getAggregatedWords(group, page, wordsQty, 'empty')
       .then((content: AggregatedWords) => {
         // console.log(content);
-        setWordList(content.paginatedResults);
+        if (!cleanupFunction) setWordList(content.paginatedResults);
       })
       .catch(() => {});
+    return () => {
+      cleanupFunction = true;
+    };
   }, []);
 
   useEffect(() => {
     if (wordsList.length) {
       // console.log('wordslist loaded!');
+      // console.log(wordsList);
       proceedWithWord(currentWord);
     }
   }, [wordsList]);
+
+  useEffect(() => {
+    if (currentWord) proceedWithWord(currentWord);
+  }, [currentWord]);
 
   function showInfoIcon() {
     setIsDisplayInfo(true);
@@ -108,9 +118,9 @@ function Sprint(): JSX.Element {
       // console.log(`incorrect! actual score: ${score}`);
       showInfoIcon();
     }
-    // setCurrentWord((prev: number) => prev + 1);
-    setCurrentWord(score + 1);
-    proceedWithWord(currentWord);
+    setCurrentWord((prev: number) => prev + 1);
+    // setCurrentWord(score + 1);
+    // proceedWithWord(currentWord);
   }
 
   function onIncorrectButtonPressed() {
@@ -124,9 +134,9 @@ function Sprint(): JSX.Element {
       // console.log(`incorrect! actual score: ${score}`);
       showInfoIcon();
     }
-    // setCurrentWord((prev: number) => prev + 1);
-    setCurrentWord(score + 1);
-    proceedWithWord(currentWord);
+    setCurrentWord((prev: number) => prev + 1);
+    // setCurrentWord(score + 1);
+    // proceedWithWord(currentWord);
   }
 
   function SprintGame(time: number): JSX.Element {
