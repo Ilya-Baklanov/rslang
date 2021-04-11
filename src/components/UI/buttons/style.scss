@@ -1,0 +1,21 @@
+.quit-button,
+.quit-button_active {
+  display: flex;
+  padding: 0 0 0 10px;
+  overflow: hidden;
+  transition: 0.2s ease-in-out;
+}
+
+.quit-button {
+  width: 32px;
+}
+
+.quit-button_active {
+  width: 140px;
+}
+
+.quit-button-label {
+}
+
+.quit-icon {
+}

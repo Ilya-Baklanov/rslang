@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import LearningCard from './LearningCard';
+import LearningCard from './LearningCard/LearningCard';
 import styles from './style.scss';
 
 const Progress = (): JSX.Element => {

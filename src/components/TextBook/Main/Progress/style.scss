@@ -1,52 +1,26 @@
-.learning-card {
+.progress {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
-  width: 45%;
-  height: 90%;
-  border: solid blueviolet 1px;
-  border-radius: 7px;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  padding-top: 10px;
 }
 
-.image {
-  border-radius: 9px;
-  margin: 5px;
-}
-
-.word {
-}
-
-.transcription {
-}
-
-.word-translate {
-}
-
-.text-meaning {
-}
-
-.text-meaning-translate {
-}
-
-.text-example {
-}
-
-.text-example-translate {
-}
-
-.form {
-}
-
-.input {
-}
-
-.submit-button {
-}
-
-.view-answer {
-}
-
-.category-buttons {
+.type-of-learning-buttons {
   display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 7%;
+}
+
+.learning-zone {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 93%;
 }

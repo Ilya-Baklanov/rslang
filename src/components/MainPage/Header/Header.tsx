@@ -31,7 +31,7 @@ const Header = (): JSX.Element => (
         </li>
         <GuestUserInfo />
         <li>
-          <a href="-">Войти</a>
+          <a href="/login">Войти</a>
         </li>
       </ul>
     </nav>
