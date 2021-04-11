@@ -8,24 +8,49 @@ import styles from './style.scss';
 
 const Dictionary = (): JSX.Element => {
   const [words, setWords] = useState<AggregatedWord[]>([]);
+  const [totalCountWords, settTotalCountWords] = useState(0);
   const [wordCategory, setWordCategory] = useState('learned');
+  const [currentGroup, setCurrentGroup] = useState(0);
+  const [currentPage, setCurrentPage] = useState(0);
 
   useEffect(() => {
-    getAggregatedWords('empty', 'empty', 10, `{"userWord.difficulty":"${wordCategory}"}`)
-      .then((content: AggregatedWords) => setWords(content.paginatedResults))
+    getAggregatedWords(currentGroup, currentPage, 10, `{"userWord.difficulty":"${wordCategory}"}`)
+      .then((content: AggregatedWords) => {
+        setWords(content.paginatedResults);
+        settTotalCountWords(content.totalCount[0].count);
+      })
       .catch(err => console.log(err));
-  }, [wordCategory]);
+  }, [wordCategory, currentPage, currentGroup]);
 
   const learnedWordHandler = () => {
+    setCurrentPage(0);
     setWordCategory('learned');
   };
 
   const hardWordHandler = () => {
+    setCurrentPage(0);
     setWordCategory('hard');
   };
 
   const deletedWordHandler = () => {
+    setCurrentPage(0);
     setWordCategory('deleted');
+  };
+
+  const selectHandler = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCurrentGroup(+event.target.value);
+  };
+
+  const prevPageHandler = () => {
+    if (currentPage > 0) {
+      setCurrentPage(currentPage - 1);
+    }
+  };
+
+  const nextPageHandler = () => {
+    if (currentPage < Math.floor(totalCountWords / 10)) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   return (
@@ -41,6 +66,22 @@ const Dictionary = (): JSX.Element => {
           Удалённые
         </button>
       </div>
+      <div>
+        <select
+          onChange={selectHandler}
+          name="Level-Group"
+          id="level"
+          value={currentGroup}
+          defaultValue={currentGroup}
+        >
+          <option value={0}>1</option>
+          <option value={1}>2</option>
+          <option value={2}>3</option>
+          <option value={3}>4</option>
+          <option value={4}>5</option>
+          <option value={5}>6</option>
+        </select>
+      </div>
       <div className={styles['word-list']}>
         {words.map((word: AggregatedWord) => (
           <div className={styles['word-wrapper']}>
@@ -55,6 +96,15 @@ const Dictionary = (): JSX.Element => {
             </div>
           </div>
         ))}
+      </div>
+      <div className={styles['pagination-buttons']}>
+        <button type="button" onClick={prevPageHandler}>
+          PREV
+        </button>
+        <div>{currentPage}</div>
+        <button type="button" onClick={nextPageHandler}>
+          NEXT
+        </button>
       </div>
     </div>
   );

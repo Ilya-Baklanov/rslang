@@ -13,6 +13,7 @@ import { AuthData } from '@/redux/actions.types';
 
 import getAvatar from '../getAvatar';
 import postStatistic from '../postStatistic';
+import putUserSettings from '../putUserSettings';
 import createUser from '../registration';
 import loginUser from '../signIn';
 
@@ -108,6 +109,10 @@ export default class Auth {
                     },
                   },
                 })
+                  .then(() => console.log('success'))
+                  .catch(err => console.log(err));
+
+                putUserSettings(10, {})
                   .then(() => console.log('success'))
                   .catch(err => console.log(err));
               })

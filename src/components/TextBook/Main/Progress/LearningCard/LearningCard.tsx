@@ -1,3 +1,6 @@
+/* eslint-disable no-restricted-globals */
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-alert */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/naming-convention */
@@ -10,12 +13,16 @@ import Loader from '@/components/UI/Loader/Loader';
 import { showLoaderAction, hideLoaderAction } from '@/redux/actions';
 import { Actions } from '@/redux/actions.types';
 import { LearningCardProps } from '@/types/props.types';
-import { AggregatedWords, Statistic, AggregatedWord } from '@/types/response.types';
+import {
+  AggregatedWords, Statistic, AggregatedWord, UserSettings,
+} from '@/types/response.types';
 import { State } from '@/types/states.types';
 import getAggregatedWords from '@/utils/getAggregatedWords';
 import getStatistic from '@/utils/getStatistic';
+import getUserSettings from '@/utils/getUserSettings';
 import postStatistic from '@/utils/postStatistic';
 import postUserWord from '@/utils/postUserWord';
+import putUserSettings from '@/utils/putUserSettings';
 import putUserWord from '@/utils/putUserWord';
 
 import styles from './style.scss';
@@ -43,6 +50,7 @@ const LearningCard = ({
   const [answerIsHidden, setAnswerIsHidden] = useState(true);
   const [viewAnswer, setViewAnswer] = useState(false);
   const [currentWord, setCurrentWord] = useState(0);
+  const [learnedWordsToday, setLearnedWordsToday] = useState(0);
   const [wordCategory, setWordCategory] = useState('learned');
   const [statistic, setStatistic] = useState<Statistic>({
     learnedWords: 0,
@@ -56,39 +64,89 @@ const LearningCard = ({
       },
     },
   });
-  const [filter, setFilter] = useState('new');
-  const date = new Date().toLocaleDateString();
+  const [filter, setFilter] = useState('{"userWord":null}');
+  const [settings, setSettings] = useState<UserSettings>({
+    wordsPerDay: 10,
+    optional: {
+      wordTranslate: false,
+      textTranslate: false,
+      hardButton: false,
+      repeatButton: false,
+      deleteButton: false,
+    },
+  });
+  const [date, setDate] = useState(new Date().toLocaleDateString());
 
   const resetStateLearningCard = () => {
     setViewAnswer(false);
     setInputState('');
     setAnswerIsCorrect(false);
     setAnswerIsHidden(true);
-    setWordCategory('learned');
   };
+
+  useEffect(() => {
+    if (date !== new Date().toLocaleDateString()) {
+      putUserSettings(10, settings.optional)
+        .then((responseSettings: UserSettings) => setSettings(responseSettings))
+        .catch(err => console.log(err));
+    }
+  }, []);
 
   useEffect(() => {
     if (filterType === 'new') {
       setFilter('{"userWord":null}');
+      setWordCategory('learned');
     } else if (filterType === 'repeat') {
       setFilter('{"userWord.difficulty":"repeat"}');
+      setWordCategory('repeat');
     } else if (filterType === 'hard') {
       setFilter('{"userWord.difficulty":"hard"}');
+      setWordCategory('hard');
     }
   }, [filterType]);
 
   useEffect(() => {
+    resetStateLearningCard();
+    setCurrentWord(0);
+    getUserSettings()
+      .then((responseSettings: UserSettings) => setSettings(responseSettings))
+      .catch(err => console.log(err));
+
     getStatistic()
-      .then((responseStatistic: Statistic) => setStatistic(responseStatistic))
+      .then((responseStatistic: Statistic) => {
+        setStatistic(responseStatistic);
+        setLearnedWordsToday(responseStatistic.optional.allStats[`${date}`]);
+      })
       .catch(err => console.log(err));
 
     getAggregatedWords('empty', 'empty', 'empty', filter)
       .then((content: AggregatedWords) => {
         setWords(content.paginatedResults);
-        resetStateLearningCard();
       })
       .catch(err => console.log(err));
   }, [filter]);
+
+  useEffect(() => {
+    if (learnedWordsToday === settings.wordsPerDay) {
+      const incrementWordsLimit = confirm(
+        'Лимит слов на сегодня закончен. Хотите увеличить лимит?'
+      );
+      if (incrementWordsLimit) {
+        putUserSettings(settings.wordsPerDay + 10, settings.optional)
+          .then((responseSettings: UserSettings) => setSettings(responseSettings))
+          .catch(err => console.log(err));
+
+        getAggregatedWords('empty', 'empty', 'empty', filter)
+          .then((content: AggregatedWords) => {
+            setWords(content.paginatedResults);
+            resetStateLearningCard();
+          })
+          .catch(err => console.log(err));
+      }
+
+      setCurrentWord(0);
+    }
+  }, [learnedWordsToday]);
 
   useEffect(() => {
     if (words[currentWord]) {
@@ -148,9 +206,9 @@ const LearningCard = ({
       savannahStats,
       allStats,
     } = statistic.optional;
+
     event.preventDefault();
     event.stopPropagation();
-    console.log(statistic);
 
     if (allStats[`${date}`]) {
       allStats[`${date}`] = allStats[`${date}`] + 1;
@@ -174,7 +232,10 @@ const LearningCard = ({
     putUserWord(words[currentWord]._id, wordCategory, option)
       .then()
       .catch(err => console.log(err));
-    setCurrentWord(currentWord + 1);
+    if (currentWord < 9) {
+      setCurrentWord(currentWord + 1);
+    }
+    setLearnedWordsToday(learnedWordsToday + 1);
     resetStateLearningCard();
   };
 
@@ -203,6 +264,14 @@ const LearningCard = ({
     };
   };
 
+  const {
+    wordTranslate,
+    textTranslate,
+    hardButton,
+    repeatButton,
+    deleteButton,
+  } = settings.optional;
+
   return (
     <React.Fragment>
       {words.length === 0 ? (
@@ -221,15 +290,21 @@ const LearningCard = ({
             ) : (
               <h2 className={styles['transcription']}>{word.transcription}</h2>
             )}
-            <h2 className={styles['word-translate']}>{word.wordTranslate}</h2>
+            {wordTranslate ? (
+              <h2 className={styles['word-translate']}>{word.wordTranslate}</h2>
+            ) : (
+              ''
+            )}
             <p
               dangerouslySetInnerHTML={createMarkup(word.textMeaning, answerIsCorrect)}
               className={styles['text-meaning']}
             />
             {answerIsHidden ? (
               ''
-            ) : (
+            ) : textTranslate ? (
               <p className={styles['text-meaning-translate']}>{word.textMeaningTranslate}</p>
+            ) : (
+              ''
             )}
             <p
               dangerouslySetInnerHTML={createMarkup(word.textExample, answerIsCorrect)}
@@ -237,8 +312,10 @@ const LearningCard = ({
             />
             {answerIsHidden ? (
               ''
-            ) : (
+            ) : textTranslate ? (
               <p className={styles['text-example-translate']}>{word.textExampleTranslate}</p>
+            ) : (
+              ''
             )}
             <form
               className={styles['form']}
@@ -260,16 +337,28 @@ const LearningCard = ({
           </div>
           {answerIsCorrect ? (
             <div className={styles['category-buttons']}>
-              <button onClick={repeatWordHandler} type="button">
-                Это нужно повторить
-              </button>
-              <button onClick={hardWordHandler} type="button">
-                Это было сложно
-              </button>
-              <button onClick={deletedWordHandler} type="button">
-                Удалить это слово, я его знаю
-              </button>
-              {filterType === 'repeat' || 'hard' ? (
+              {repeatButton ? (
+                <button onClick={repeatWordHandler} type="button">
+                  Это нужно повторить
+                </button>
+              ) : (
+                ''
+              )}
+              {hardButton ? (
+                <button onClick={hardWordHandler} type="button">
+                  Это было сложно
+                </button>
+              ) : (
+                ''
+              )}
+              {deleteButton ? (
+                <button onClick={deletedWordHandler} type="button">
+                  Удалить это слово, я его знаю
+                </button>
+              ) : (
+                ''
+              )}
+              {filterType === 'repeat' || filterType === 'hard' ? (
                 <button onClick={deletedWordHandler} type="button">
                   Больше не повторять
                 </button>

@@ -8,7 +8,8 @@ interface AuthorizationProps {
 }
 
 interface QuitActionProps {
-  quitAction: AnyActionCreator;
+  quitAction?: AnyActionCreator;
+  burgerIsActive?: boolean;
 }
 
 interface TextBookProps {
@@ -48,6 +49,10 @@ interface BurgerMenuProps {
   hideBurgerMenuAction?: AnyActionCreator;
 }
 
+interface UserInfoProps {
+  burgerIsActive?: boolean;
+}
+
 export {
   AppProps,
   AuthorizationProps,
@@ -59,4 +64,5 @@ export {
   MainContentProps,
   MiniGamesProps,
   MiniGamesCardsProps,
+  UserInfoProps,
 };

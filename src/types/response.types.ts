@@ -49,6 +49,24 @@ interface Statistic {
   };
 }
 
+interface UserSettings {
+  wordsPerDay: number;
+  optional: {
+    wordTranslate: boolean;
+    textTranslate: boolean;
+    hardButton: boolean;
+    repeatButton: boolean;
+    deleteButton: boolean;
+  };
+}
+
 export {
-  Word, Words, UserWord, UserWords, Statistic, AggregatedWord, AggregatedWords,
+  Word,
+  Words,
+  UserWord,
+  UserWords,
+  Statistic,
+  AggregatedWord,
+  AggregatedWords,
+  UserSettings,
 };
