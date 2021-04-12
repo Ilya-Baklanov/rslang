@@ -112,7 +112,13 @@ export default class Auth {
                   .then(() => console.log('success'))
                   .catch(err => console.log(err));
 
-                putUserSettings(10, {})
+                putUserSettings(10, {
+                  wordTranslate: true,
+                  textTranslate: true,
+                  hardButton: true,
+                  repeatButton: true,
+                  deleteButton: true,
+                })
                   .then(() => console.log('success'))
                   .catch(err => console.log(err));
               })

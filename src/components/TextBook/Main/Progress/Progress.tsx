@@ -20,15 +20,39 @@ const Progress = (): JSX.Element => {
 
   return (
     <div className={styles['progress']}>
-      <div className={styles['type-of-learning-buttons']}>
-        <button onClick={newWordHandler} type="button">
-          Изучать новые слова
+      <div className={styles['type-of-learning-switcher']}>
+        <button
+          className={
+            typeOfLearning === 'new'
+              ? styles['type-of-learning-button_active']
+              : styles['type-of-learning-button']
+          }
+          onClick={newWordHandler}
+          type="button"
+        >
+          Новые
         </button>
-        <button onClick={repeatWordHandler} type="button">
-          Повторить для закрепления
+        <button
+          className={
+            typeOfLearning === 'repeat'
+              ? styles['type-of-learning-button_active']
+              : styles['type-of-learning-button']
+          }
+          onClick={repeatWordHandler}
+          type="button"
+        >
+          Повторить
         </button>
-        <button onClick={hardWordHandler} type="button">
-          Повторно изучить сложные слова
+        <button
+          className={
+            typeOfLearning === 'hard'
+              ? styles['type-of-learning-button_active']
+              : styles['type-of-learning-button']
+          }
+          onClick={hardWordHandler}
+          type="button"
+        >
+          Сложные
         </button>
       </div>
       <div className={styles['learning-zone']}>

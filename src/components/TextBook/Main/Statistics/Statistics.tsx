@@ -8,6 +8,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Statistic } from '@/types/response.types';
 import getStatistic from '@/utils/getStatistic';
 
+import styles from './style.scss';
+
 Chart.register(...registerables);
 
 interface Config {
@@ -98,7 +100,7 @@ const Statistics = (): JSX.Element => {
   return (
     <div>
       <div>
-        <canvas id="statisticChart" width="400" height="400" ref={chartRef} />
+        <canvas id="statisticChart" style={{ width: '103px', height: '100px' }} ref={chartRef} />
       </div>
       <div>{allWordsLearned}</div>
     </div>

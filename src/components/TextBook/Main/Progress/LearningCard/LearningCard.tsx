@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-floating-promises */
 /* eslint-disable no-restricted-globals */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-alert */
@@ -6,7 +7,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
 
 import Loader from '@/components/UI/Loader/Loader';
@@ -44,11 +45,14 @@ const LearningCard = ({
     textExampleTranslate: '',
     textMeaningTranslate: '',
     wordTranslate: '',
+    audio: '',
+    audioExample: '',
+    audioMeaning: '',
   });
   const [inputState, setInputState] = useState('');
   const [answerIsCorrect, setAnswerIsCorrect] = useState(false);
   const [answerIsHidden, setAnswerIsHidden] = useState(true);
-  const [viewAnswer, setViewAnswer] = useState(false);
+  const [readyToSubmit, setReadyToSubmit] = useState(false);
   const [currentWord, setCurrentWord] = useState(0);
   const [learnedWordsToday, setLearnedWordsToday] = useState(0);
   const [wordCategory, setWordCategory] = useState('learned');
@@ -77,8 +81,11 @@ const LearningCard = ({
   });
   const [date, setDate] = useState(new Date().toLocaleDateString());
 
+  const textMeaningRef = useRef<HTMLAudioElement>(null);
+  const textExampleRef = useRef<HTMLAudioElement>(null);
+
   const resetStateLearningCard = () => {
-    setViewAnswer(false);
+    setReadyToSubmit(false);
     setInputState('');
     setAnswerIsCorrect(false);
     setAnswerIsHidden(true);
@@ -160,6 +167,9 @@ const LearningCard = ({
         textExampleTranslate,
         textMeaningTranslate,
         wordTranslate,
+        audio,
+        audioExample,
+        audioMeaning,
       } = words[currentWord];
 
       setWord({
@@ -172,6 +182,9 @@ const LearningCard = ({
         textExampleTranslate,
         textMeaningTranslate,
         wordTranslate,
+        audio,
+        audioExample,
+        audioMeaning,
       });
     }
   }, [words, currentWord]);
@@ -184,6 +197,15 @@ const LearningCard = ({
     }
   }, [answerIsCorrect]);
 
+  useEffect(() => {
+    if (readyToSubmit) {
+      const option = words[currentWord].userWord ? words[currentWord].userWord.optional : { date };
+      putUserWord(words[currentWord]._id, wordCategory, option)
+        .then()
+        .catch(err => console.log(err));
+    }
+  }, [wordCategory]);
+
   const inputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
     setInputState(event.target.value);
   };
@@ -192,6 +214,7 @@ const LearningCard = ({
     event.preventDefault();
     event.stopPropagation();
     if (inputState === word.word) {
+      setReadyToSubmit(true);
       setAnswerIsCorrect(true);
       setAnswerIsHidden(false);
     }
@@ -228,10 +251,6 @@ const LearningCard = ({
       .then((content: Statistic) => setStatistic(content))
       .catch(err => console.log(err));
 
-    const option = words[currentWord].userWord ? words[currentWord].userWord.optional : { date };
-    putUserWord(words[currentWord]._id, wordCategory, option)
-      .then()
-      .catch(err => console.log(err));
     if (currentWord < 9) {
       setCurrentWord(currentWord + 1);
     }
@@ -240,9 +259,11 @@ const LearningCard = ({
   };
 
   const viewAnswerHandler = () => {
-    setViewAnswer(true);
+    setReadyToSubmit(true);
     setAnswerIsCorrect(true);
     setAnswerIsHidden(false);
+    setWordCategory('repeat');
+    setInputState(word.word);
   };
 
   const repeatWordHandler = () => {
@@ -255,6 +276,19 @@ const LearningCard = ({
 
   const deletedWordHandler = () => {
     setWordCategory('deleted');
+  };
+
+  const learnedWordHandler = () => {
+    setWordCategory('learned');
+  };
+
+  const audioHandler = (typeOfText: string) => {
+    if (typeOfText === 'textMeaning') {
+      textMeaningRef.current?.play();
+    }
+    if (typeOfText === 'textExample') {
+      textExampleRef.current?.play();
+    }
   };
 
   const createMarkup = (text: string, answerIsCorrect: boolean) => {
@@ -284,21 +318,33 @@ const LearningCard = ({
               src={`https://reat-learnwords.herokuapp.com/${word.image}`}
               alt="Text"
             />
-            {answerIsHidden ? '' : <h2 className={styles['word']}>{word.word}</h2>}
+            {answerIsHidden ? '' : <span className={styles['word']}>{word.word}</span>}
             {answerIsHidden ? (
               ''
             ) : (
-              <h2 className={styles['transcription']}>{word.transcription}</h2>
+              <span className={styles['transcription']}>{word.transcription}</span>
             )}
             {wordTranslate ? (
-              <h2 className={styles['word-translate']}>{word.wordTranslate}</h2>
+              <span className={styles['word-translate']}>{word.wordTranslate}</span>
             ) : (
               ''
             )}
-            <p
-              dangerouslySetInnerHTML={createMarkup(word.textMeaning, answerIsCorrect)}
-              className={styles['text-meaning']}
-            />
+            <div className={styles['text-meaning']}>
+              <p dangerouslySetInnerHTML={createMarkup(word.textMeaning, answerIsCorrect)} />
+              <button
+                type="button"
+                onClick={() => audioHandler('textMeaning')}
+                className={styles['audio-play-button']}
+              >
+                Play
+                <audio
+                  ref={textMeaningRef}
+                  src={`https://reat-learnwords.herokuapp.com/${word.audioMeaning}`}
+                >
+                  <track kind="captions" />
+                </audio>
+              </button>
+            </div>
             {answerIsHidden ? (
               ''
             ) : textTranslate ? (
@@ -306,10 +352,22 @@ const LearningCard = ({
             ) : (
               ''
             )}
-            <p
-              dangerouslySetInnerHTML={createMarkup(word.textExample, answerIsCorrect)}
-              className={styles['text-example']}
-            />
+            <div className={styles['text-example']}>
+              <p dangerouslySetInnerHTML={createMarkup(word.textExample, answerIsCorrect)} />
+              <button
+                type="button"
+                onClick={() => audioHandler('textExample')}
+                className={styles['audio-play-button']}
+              >
+                Play
+                <audio
+                  ref={textExampleRef}
+                  src={`https://reat-learnwords.herokuapp.com/${word.audioExample}`}
+                >
+                  <track kind="captions" />
+                </audio>
+              </button>
+            </div>
             {answerIsHidden ? (
               ''
             ) : textTranslate ? (
@@ -323,7 +381,7 @@ const LearningCard = ({
             >
               <input
                 className={styles['input']}
-                value={viewAnswer ? word.word : inputState}
+                value={inputState}
                 type="text"
                 onChange={inputHandler}
               />
@@ -336,30 +394,62 @@ const LearningCard = ({
             </button>
           </div>
           {answerIsCorrect ? (
-            <div className={styles['category-buttons']}>
+            <div className={styles['category-switcher']}>
               {repeatButton ? (
-                <button onClick={repeatWordHandler} type="button">
+                <button
+                  className={
+                    wordCategory === 'repeat'
+                      ? styles['category-button_active']
+                      : styles['category-button']
+                  }
+                  onClick={repeatWordHandler}
+                  type="button"
+                >
                   Это нужно повторить
                 </button>
               ) : (
                 ''
               )}
               {hardButton ? (
-                <button onClick={hardWordHandler} type="button">
+                <button
+                  className={
+                    wordCategory === 'hard'
+                      ? styles['category-button_active']
+                      : styles['category-button']
+                  }
+                  onClick={hardWordHandler}
+                  type="button"
+                >
                   Это было сложно
                 </button>
               ) : (
                 ''
               )}
-              {deleteButton ? (
-                <button onClick={deletedWordHandler} type="button">
+              {deleteButton && filterType === 'new' ? (
+                <button
+                  className={
+                    wordCategory === 'deleted'
+                      ? styles['category-button_active']
+                      : styles['category-button']
+                  }
+                  onClick={deletedWordHandler}
+                  type="button"
+                >
                   Удалить это слово, я его знаю
                 </button>
               ) : (
                 ''
               )}
               {filterType === 'repeat' || filterType === 'hard' ? (
-                <button onClick={deletedWordHandler} type="button">
+                <button
+                  className={
+                    wordCategory === 'learned'
+                      ? styles['category-button_active']
+                      : styles['category-button']
+                  }
+                  onClick={learnedWordHandler}
+                  type="button"
+                >
                   Больше не повторять
                 </button>
               ) : (
@@ -367,7 +457,7 @@ const LearningCard = ({
               )}
             </div>
           ) : (
-            ''
+            <div className={styles['category-switcher']} />
           )}
         </div>
       )}

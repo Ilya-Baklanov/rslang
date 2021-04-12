@@ -1,3 +1,5 @@
+@import '../../assets/stylesheets/index.scss';
+
 .text-book-wrapper {
   width: 100vw;
 }
@@ -7,7 +9,7 @@
   top: 0;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100vw;
   height: 70px;
   background-color: white;
@@ -17,7 +19,7 @@
 .text-book-main {
   margin-top: 70px;
   min-height: calc(100vh - 170px);
-  height: 900px;
+  height: 750px;
 }
 
 .burger-wrapper,
@@ -58,6 +60,16 @@
   width: calc(100vw - 50px);
   height: 100%;
   background-color: gold;
+  text-align: center;
+  @media (min-width: 1200px) {
+    font-size: $mainText16;
+  }
+  @media (min-width: 400px - 1px) and (max-width: 1200px - 1px) {
+    font-size: $mainText16;
+  }
+  @media (min-width: 320px - 1px) and (max-width: 400px - 1px) {
+    font-size: $mainText14;
+  }
 }
 
 .overlay {
