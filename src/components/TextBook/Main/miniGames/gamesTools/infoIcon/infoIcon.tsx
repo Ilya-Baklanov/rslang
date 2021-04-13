@@ -1,7 +1,7 @@
 import classnames from 'classnames';
 import React from 'react';
 
-import iStyles from './InfoIcon.scss';
+import iStyles from './infoIcon.scss';
 
 interface InfoIconProps {
   isPositive?: boolean;
