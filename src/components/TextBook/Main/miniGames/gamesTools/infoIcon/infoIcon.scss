@@ -1,0 +1,28 @@
+@import '../gameContainer/GameContainer.scss';
+$info-content-color: #ffffff;
+$icon-postitve-color: #228b22;
+$icon-negative-color: #b22222;
+
+.info-icon-container {
+  position: absolute;
+  bottom: 5px;
+  width: fit-content;
+  text-align: center;
+  border-radius: 50%;
+  color: $info-content-color;
+  font-weight: bold;
+  font-size: 48px;
+  line-height: 0;
+}
+
+.positive {
+  background-color: $icon-postitve-color;
+}
+
+.negative {
+  background-color: $icon-negative-color;
+}
+
+.info-icon {
+  font-size: unset;
+}
