@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
 
+import GameResults from '@/types/gameresult.types';
 import { AggregatedWord, AggregatedWords } from '@/types/response.types';
 import getAggregatedWords from '@/utils/getAggregatedWords';
 
@@ -9,6 +10,7 @@ import GameCounter from '../gamesTools/gameCounter/GameCounter';
 import InfoIcon from '../gamesTools/infoIcon/infoIcon';
 import Cadencer from '../gamesTools/services/cadencer';
 import getRandomNumber from '../gamesTools/services/random';
+import StatModal from '../gamesTools/statModal/StatModal';
 import WordPlate from '../gamesTools/wordPlate/WordPlate';
 
 import sprintStyles from './Sprint.scss';
@@ -28,15 +30,28 @@ function Sprint(): JSX.Element {
   const [isDisplayInfo, setIsDisplayInfo] = useState(false);
   const [isCorrectVariantProposed, setIsCorrectVariantProposed] = useState(true);
   const [isRightAnswerReceived, setIsRightAnswerReceived] = useState(true);
-  const [, /* score*/ setScore] = useState(0);
+  const [gameResults, setGameResults] = useState<GameResults>({ goodAnswers: [], badAnswers: [] });
   const [currentWord, setCurrentWord] = useState(0);
   const [englishWord, setEnglishWord] = useState<string>('');
   const [russianWord, setRussianWord] = useState<string>('');
   const [wordsList, setWordList] = useState<AggregatedWord[]>([]);
+  const [showResults, setShowResults] = useState(false);
+
+  function exitGame() {
+    setShowResults(false);
+    // Здесь необходимо подключить переход на страницу с играми!!!!!
+    // Результат игры в gameResults
+  }
 
   useEffect(() => {
     function decTimeLeft() {
-      setTimeLeft((prev: number) => (prev ? prev - 1 : startTimeLeft));
+      setTimeLeft((prev: number) => {
+        if (prev) {
+          return prev - 1;
+        }
+        setShowResults(true);
+        return 0;
+      });
     }
 
     cadencer.setCallback(decTimeLeft);
@@ -49,29 +64,45 @@ function Sprint(): JSX.Element {
   }, []);
 
   function proceedWithWord(wordNumber: number) {
-    // console.log(wordNumber);
     if (wordNumber < wordsQty) {
-      // console.log(wordsList[wordNumber]);
       setEnglishWord(wordsList[wordNumber].word);
       const isCorrectVariantInUse = Boolean(getRandomNumber(0, 1));
       if (isCorrectVariantInUse) {
-        // console.log('using correct variant!');
         setRussianWord(wordsList[wordNumber].wordTranslate);
       } else {
         let variant: number;
         do {
           variant = getRandomNumber(0, wordsQty - 1);
         } while (variant === wordNumber);
-        // console.log(
-        //  `using incorrect variant! n=${variant} translation=${wordsList[variant]?.wordTranslate}`
-        // );
         setRussianWord(wordsList[variant].wordTranslate);
       }
       setIsCorrectVariantProposed(isCorrectVariantInUse);
-      // console.log(`isCorrectVariantInUse = ${isCorrectVariantInUse}`);
-      // console.log(`isCorrectVariantProposed = ${isCorrectVariantProposed}`);
     } else {
-      // console.log(`game over! final score: ${score}`);
+      setShowResults(true);
+    }
+  }
+
+  function showInfoIcon() {
+    setIsDisplayInfo(true);
+    setTimeout(() => {
+      setIsDisplayInfo(false);
+    }, infoIconDisplayDelay);
+  }
+
+  function processResult(isCorrectAnswer: boolean): void {
+    const answerRecord = wordsList[currentWord];
+    setIsRightAnswerReceived(isCorrectAnswer);
+    showInfoIcon();
+    if (isCorrectAnswer) {
+      setGameResults((prev: GameResults) => {
+        prev.goodAnswers.push(answerRecord);
+        return prev;
+      });
+    } else {
+      setGameResults((prev: GameResults) => {
+        prev.badAnswers.push(answerRecord);
+        return prev;
+      });
     }
   }
 
@@ -79,7 +110,6 @@ function Sprint(): JSX.Element {
     let cleanupFunction = false;
     getAggregatedWords(group, page, wordsQty, 'empty')
       .then((content: AggregatedWords) => {
-        // console.log(content);
         if (!cleanupFunction) setWordList(content.paginatedResults);
       })
       .catch(() => {});
@@ -90,8 +120,6 @@ function Sprint(): JSX.Element {
 
   useEffect(() => {
     if (wordsList.length) {
-      // console.log('wordslist loaded!');
-      // console.log(wordsList);
       proceedWithWord(currentWord);
     }
   }, [wordsList]);
@@ -100,43 +128,22 @@ function Sprint(): JSX.Element {
     if (currentWord) proceedWithWord(currentWord);
   }, [currentWord]);
 
-  function showInfoIcon() {
-    setIsDisplayInfo(true);
-    setTimeout(() => {
-      setIsDisplayInfo(false);
-    }, infoIconDisplayDelay);
-  }
-
   function onCorrectButtonPressed() {
     if (isCorrectVariantProposed) {
-      setIsRightAnswerReceived(true);
-      setScore((prev: number) => prev + 1);
-      // console.log(`correct! actual score: ${score}`);
-      showInfoIcon();
+      processResult(true);
     } else {
-      setIsRightAnswerReceived(false);
-      // console.log(`incorrect! actual score: ${score}`);
-      showInfoIcon();
+      processResult(false);
     }
     setCurrentWord((prev: number) => prev + 1);
-    // setCurrentWord(score + 1);
-    // proceedWithWord(currentWord);
   }
 
   function onIncorrectButtonPressed() {
     if (!isCorrectVariantProposed) {
-      setIsRightAnswerReceived(true);
-      setScore((prev: number) => prev + 1);
-      // console.log(`correct! actual score: ${score}`);
-      showInfoIcon();
+      processResult(true);
     } else {
-      setIsRightAnswerReceived(false);
-      // console.log(`incorrect! actual score: ${score}`);
-      showInfoIcon();
+      processResult(false);
     }
     setCurrentWord((prev: number) => prev + 1);
-    // setCurrentWord(score + 1);
-    // proceedWithWord(currentWord);
   }
 
   function SprintGame(time: number): JSX.Element {
@@ -146,6 +153,7 @@ function Sprint(): JSX.Element {
         <WordPlate label={englishWord} isBig />
         <WordPlate label={russianWord} isBig={false} />
         {isDisplayInfo && <InfoIcon isPositive={isRightAnswerReceived} />}
+        <StatModal gameResults={gameResults} statShow={showResults} onHide={exitGame} />
       </div>
     );
   }
