@@ -38,6 +38,7 @@ function StatModal({ gameResults, statShow, onHide }: StatModalProps): JSX.Eleme
               <tr key={word._id}>
                 <td>{index + 1}</td>
                 <td>{word.word}</td>
+                <td>{word.transcription}</td>
                 <td>{word.wordTranslate}</td>
               </tr>
             ))}
@@ -53,6 +54,7 @@ function StatModal({ gameResults, statShow, onHide }: StatModalProps): JSX.Eleme
               <tr key={word._id}>
                 <td>{index + 1}</td>
                 <td>{word.word}</td>
+                <td>{word.transcription}</td>
                 <td>{word.wordTranslate}</td>
               </tr>
             ))}

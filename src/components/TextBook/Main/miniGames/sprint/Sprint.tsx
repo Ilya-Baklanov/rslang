@@ -9,7 +9,7 @@ import GameContainer from '../gamesTools/gameContainer/GameContainer';
 import GameCounter from '../gamesTools/gameCounter/GameCounter';
 import InfoIcon from '../gamesTools/infoIcon/infoIcon';
 import Cadencer from '../gamesTools/services/cadencer';
-import getRandomNumber from '../gamesTools/services/random';
+import { getRandomNumber } from '../gamesTools/services/random';
 import StatModal from '../gamesTools/statModal/StatModal';
 import WordPlate from '../gamesTools/wordPlate/WordPlate';
 
