@@ -14,6 +14,7 @@ interface StatModalProps {
 }
 
 function StatModal({ gameResults, statShow, onHide }: StatModalProps): JSX.Element {
+  if (statShow) document.exitFullscreen().catch(() => {});
   return (
     <Modal
       show={statShow}
