@@ -2,6 +2,7 @@
 /* eslint-disable jsx-a11y/media-has-caption */
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from 'react-bootstrap';
+import { useHistory } from 'react-router';
 
 import GameResults from '@/types/gameresult.types';
 import { AggregatedWord, AggregatedWords } from '@/types/response.types';
@@ -40,14 +41,15 @@ function AudioCall(): JSX.Element {
   const [responseSequence, setResponseSequence] = useState<number[]>([]);
   const audioRef = useRef<HTMLAudioElement>(null);
 
+  const history = useHistory();
+
   audioRef.current?.addEventListener('ended', () => {
     setIsSoundPlaying(false);
   });
 
   function exitGame() {
     setShowResults(false);
-    // Здесь необходимо подключить переход на страницу с играми!!!!!
-    // Результат игры в gameResults
+    history.push('/home/mini-games');
   }
 
   function proceedWithWord(wordNumber: number) {

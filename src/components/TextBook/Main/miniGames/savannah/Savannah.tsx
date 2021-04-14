@@ -1,6 +1,7 @@
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }]*/
 import React, { useState, useEffect, AnimationEvent } from 'react';
 import { Button } from 'react-bootstrap';
+import { useHistory } from 'react-router';
 
 import GameResults from '@/types/gameresult.types';
 import { AggregatedWord, AggregatedWords } from '@/types/response.types';
@@ -42,10 +43,11 @@ function Savannah(): JSX.Element {
   const [showResults, setShowResults] = useState(false);
   const [responseSequence, setResponseSequence] = useState<number[]>([]);
 
+  const history = useHistory();
+
   function exitGame() {
     setShowResults(false);
-    // Здесь необходимо подключить переход на страницу с играми!!!!!
-    // Результат игры в gameResults
+    history.push('/home/mini-games');
   }
 
   function proceedWithWord(wordNumber: number) {

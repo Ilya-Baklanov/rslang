@@ -51,6 +51,7 @@ interface BurgerMenuProps {
 
 interface UserInfoProps {
   burgerIsActive?: boolean;
+  quitAction?: AnyActionCreator;
 }
 
 export {
