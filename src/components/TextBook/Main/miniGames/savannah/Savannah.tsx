@@ -18,7 +18,6 @@ import WordPlate from '../gamesTools/wordPlate/WordPlate';
 import savannahStyles from './Savannah.scss';
 
 const maxHealth = 5;
-// const maxWords = 20;
 const wordRespawnDelay = 200;
 const infoIconDisplayDelay = 1000;
 
