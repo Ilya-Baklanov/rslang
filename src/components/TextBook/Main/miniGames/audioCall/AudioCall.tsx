@@ -50,13 +50,17 @@ function AudioCall(): JSX.Element {
     // Результат игры в gameResults
   }
 
+  function playCurrentWord() {
+    setIsSoundPlaying(true);
+    audioRef.current?.play().catch(() => {
+      setIsSoundPlaying(false);
+    });
+  }
+
   function proceedWithWord(wordNumber: number) {
     if (wordNumber < wordsList.length) {
       setResponseSequence(getRandomSequence(wordNumber, wordsList.length));
-      setIsSoundPlaying(true);
-      audioRef.current?.play().catch(() => {
-        setIsSoundPlaying(false);
-      });
+      playCurrentWord();
     } else {
       setShowResults(true);
     }
@@ -132,7 +136,7 @@ function AudioCall(): JSX.Element {
       <div className={aCallStyles['audio-call-game']}>
         <GameCounter label="СЛОВА:" count={words} />
         <HealthIndicator count={health} />
-        <SoundIcon isPlaying={isSoundPlaying} />
+        <SoundIcon isPlaying={isSoundPlaying} onClick={playCurrentWord} />
         <audio ref={audioRef} src={`${server}${wordsList[currentWord]?.audio}`} />
         {isDisplayInfo && <InfoIcon isPositive={isRightAnswerReceived} />}
         <StatModal gameResults={gameResults} statShow={showResults} onHide={exitGame} />
