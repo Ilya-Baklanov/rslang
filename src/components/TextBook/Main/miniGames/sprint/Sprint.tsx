@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
+import { useHistory } from 'react-router';
 
 import GameResults from '@/types/gameresult.types';
 import { AggregatedWord, AggregatedWords } from '@/types/response.types';
@@ -37,10 +38,11 @@ function Sprint(): JSX.Element {
   const [wordsList, setWordList] = useState<AggregatedWord[]>([]);
   const [showResults, setShowResults] = useState(false);
 
+  const history = useHistory();
+
   function exitGame() {
     setShowResults(false);
-    // Здесь необходимо подключить переход на страницу с играми!!!!!
-    // Результат игры в gameResults
+    history.push('/home/mini-games');
   }
 
   useEffect(() => {

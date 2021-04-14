@@ -68,7 +68,7 @@ const App = ({ isAuth }: AppProps) => {
             </Route>
           </React.Fragment>
         ) : (
-          <Redirect to="/login" />
+          <Redirect to="/rs-lang/preview" />
         )}
       </Switch>
     </BrowserRouter>
