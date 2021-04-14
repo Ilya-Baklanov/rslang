@@ -19,34 +19,38 @@ import Main from './Main/Main';
 import styles from './style.scss';
 
 const TextBook = ({ burgerIsActive, hideBurgerMenuAction, isAuth }: TextBookProps): JSX.Element => (
-  <div className={styles['text-book-wrapper']}>
-    <header className={styles['text-book-header']}>
-      <Header />
-    </header>
+  <div className={styles['bg-wrapper']}>
+    <div className={styles['text-book-wrapper']}>
+      <header className={styles['text-book-header']}>
+        <Header />
+      </header>
 
-    <main className={styles['text-book-main']}>
-      <div className={burgerIsActive ? styles['burger-wrapper_active'] : styles['burger-wrapper']}>
-        <BurgerMenu />
-        {isAuth ? <LoggedUserInfo /> : <GuestUserInfo />}
-        <QuitButton />
-      </div>
-      <div className={styles['main-wrapper']}>
-        <div className={styles['main-container']}>
-          <Main />
+      <main className={styles['text-book-main']}>
+        <div
+          className={burgerIsActive ? styles['burger-wrapper_active'] : styles['burger-wrapper']}
+        >
+          <BurgerMenu />
+          <QuitButton />
+          {isAuth ? <LoggedUserInfo /> : <GuestUserInfo />}
         </div>
-      </div>
-    </main>
+        <div className={styles['main-wrapper']}>
+          <div className={styles['main-container']}>
+            <Main />
+          </div>
+        </div>
+      </main>
 
-    <footer className={styles['footer-wrapper']}>
-      <div className={styles['footer-container']}>
-        <Footer />
-      </div>
-    </footer>
+      <footer className={styles['footer-wrapper']}>
+        <div className={styles['footer-container']}>
+          <Footer />
+        </div>
+      </footer>
 
-    <div
-      onClick={hideBurgerMenuAction}
-      className={burgerIsActive ? styles['overlay_active'] : styles['overlay']}
-    />
+      <div
+        onClick={hideBurgerMenuAction}
+        className={burgerIsActive ? styles['overlay_active'] : styles['overlay']}
+      />
+    </div>
   </div>
 );
 

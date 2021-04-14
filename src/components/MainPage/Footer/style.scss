@@ -13,13 +13,68 @@
   }
 }
 
-.developers {
+.oneDev, .twoDev {
+  margin-right: 10px;
+  color: white;
 }
 
-.year {
+$red: #f3576c;
+$purple: #040106;
+$blue: #130b52;
+$bg: #8094ac;
+
+.oneDev, .twoDev, .threeDev {
+	transform: translate(-50%, -50%) scale(.8, 1);
+	font-weight: 900;
+	font-family: 'Reem Kufi', sans-serif;
+	color: $bg;
+	text-transform: uppercase;
+	width: 100%;
+	text-align: center;
+	mix-blend-mode: darken;
+  text-shadow: 2px 2px 2px black;
+	&:before {
+		content: attr(data-heading);
+		overflow: hidden;
+		text-align: center;
+		width: 100%;
+		text-shadow: -1px -1px 0 $purple, 1px -1px 0 $purple, -1px 1px 0 $purple, 1px 1px 0 $purple;
+	}
+	&:after {
+		content: attr(data-heading);
+		overflow: hidden;
+		transform: translate(.3vw, -.3vw);
+		text-align: center;
+		width: 100%;
+		color: #00356b;
+		text-shadow: none;
+		mix-blend-mode: darken;
+	}
 }
 
 .footer__RS-logo {
   width: 100px;
   height: 50px;
 }
+
+
+.bubbles {
+  display: inline-block;
+  font-family: arial;
+  position: relative;
+  }
+
+  .bubbles h1 {
+  position: relative;
+  font-family: 'Luckiest Guy', cursive;
+  color: #fff;
+  z-index: 2;
+  }
+
+  .individual-bubble {
+  position: absolute;
+  border-radius: 100%;
+  bottom: 10px;
+  background-color: #fff;
+  z-index: 1;
+  }

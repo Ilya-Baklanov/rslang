@@ -12,7 +12,7 @@ const Logo = (): JSX.Element => {
 
   return (
     <button type="button" onClick={clickHandler} className={styles['logo']}>
-      <img className={styles['logo-img']} src="../../../assets/image/Logo.png" alt="RS Lang logo" />
+      <img className={styles['logo-img']} src="../../../assets/image/logo.png" alt="RS Lang logo" />
     </button>
   );
 };
