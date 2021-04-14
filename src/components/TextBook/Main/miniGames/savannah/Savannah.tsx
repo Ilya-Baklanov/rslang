@@ -135,14 +135,9 @@ function Savannah(): JSX.Element {
     if (!isGamePlaying) return;
     const animation = event.animationName;
     if (animation.includes(animationBlow)) {
-      // win routine
       processResult(true);
     } else {
-      // fail routine
-      setHealth((prev: number) => prev - 1);
       processResult(false);
-      setIsRightAnswerReceived(false);
-      showInfoIcon();
     }
     wordRespawn();
   }

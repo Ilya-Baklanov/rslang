@@ -131,6 +131,10 @@ function AudioCall(): JSX.Element {
     showInfoIcon();
   }
 
+  function onDontKnow() {
+    processResult(false);
+  }
+
   function AudioCallGame(): JSX.Element {
     return (
       <div className={aCallStyles['audio-call-game']}>
@@ -147,15 +151,20 @@ function AudioCall(): JSX.Element {
   function AudioCallControls(): JSX.Element {
     return (
       <div className={aCallStyles['audio-call-controls']}>
-        {responseSequence.map(button => (
-          <Button
-            key={wordsList[button]._id}
-            variant="outline-secondary"
-            onClick={button === currentWord ? onGoodAnswer : onBadAnswer}
-          >
-            {wordsList[button].wordTranslate}
-          </Button>
-        ))}
+        <div className={aCallStyles['response-controls']}>
+          {responseSequence.map(button => (
+            <Button
+              key={wordsList[button]._id}
+              variant="outline-secondary"
+              onClick={button === currentWord ? onGoodAnswer : onBadAnswer}
+            >
+              {wordsList[button].wordTranslate}
+            </Button>
+          ))}
+        </div>
+        <Button variant="danger" onClick={onDontKnow}>
+          Не знаю
+        </Button>
       </div>
     );
   }

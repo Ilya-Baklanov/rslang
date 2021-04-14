@@ -30,7 +30,7 @@ function StatModal({ gameResults, statShow, onHide }: StatModalProps): JSX.Eleme
       </Modal.Header>
       <Modal.Body>
         <Alert variant="danger">
-          Ошибок:
+          Не изучено:
           {gameResults.badAnswers.length}
         </Alert>
         <Table size="sm">
@@ -46,7 +46,7 @@ function StatModal({ gameResults, statShow, onHide }: StatModalProps): JSX.Eleme
           </tbody>
         </Table>
         <Alert variant="success">
-          Правильных ответов:
+          Изучено:
           {gameResults.goodAnswers.length}
         </Alert>
         <Table size="sm">
