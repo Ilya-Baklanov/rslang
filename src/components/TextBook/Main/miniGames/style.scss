@@ -1,3 +1,10 @@
+.mini-game-container-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
+
 .mini-games-cards-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -7,19 +14,14 @@
   height: 100%;
 }
 
-.mini-games-cards {
-  display: block;
-  // width: 42%;
-  // height: 42%;
-  width: 22%;
-  height: 22%;
-  border-radius: 7%;
-  background-color: greenyellow;
-}
-
-.mini-game-container-wrapper {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-content: center;
+.mini-games-cards-wrapper > * {
+  width: 23%;
+  @media (max-width: 1200px) {
+    width: 48%;
+    margin-bottom: 10px;
+  }
+  @media (max-width: 600px) {
+    width: 80%;
+    margin-bottom: 10px;
+  }
 }
