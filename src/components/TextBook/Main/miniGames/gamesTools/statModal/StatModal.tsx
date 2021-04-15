@@ -56,14 +56,14 @@ function StatModal({ gameResults, statShow, onHide }: StatModalProps): JSX.Eleme
       </Modal.Header>
       <Modal.Body>
         <Alert variant="danger">
-          Не изучено:
+          Не изучено:&nbsp;
           {gameResults.badAnswers.length}
         </Alert>
         <Table size="sm">
           <tbody>{renderSubTree(gameResults.badAnswers)}</tbody>
         </Table>
         <Alert variant="success">
-          Изучено:
+          Изучено:&nbsp;
           {gameResults.goodAnswers.length}
         </Alert>
         <Table size="sm">
