@@ -309,7 +309,7 @@ const LearningCard = ({
   return (
     <React.Fragment>
       {words.length === 0 ? (
-        <div>NET SLOV</div>
+        <div className={styles['no-words']}>Добавьте слова</div>
       ) : (
         <div className={styles['learning-card-wrapper']}>
           <div className={styles['learning-card']}>
