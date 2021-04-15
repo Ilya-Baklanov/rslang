@@ -98,11 +98,20 @@ const Statistics = (): JSX.Element => {
   }, [config]);
 
   return (
-    <div>
+    <div className={styles['statistics-wrapper']}>
       <div>
-        <canvas id="statisticChart" style={{ width: '103px', height: '100px' }} ref={chartRef} />
+        <canvas
+          id="statisticChart"
+          width="400"
+          height="400"
+          ref={chartRef}
+          className={styles['statistic-chart']}
+        />
       </div>
-      <div>{allWordsLearned}</div>
+      <div className={styles['all-learned-words']}>
+        Выучено слов:
+        {allWordsLearned}
+      </div>
     </div>
   );
 };

@@ -1,7 +1,6 @@
 .main-container-wrapper {
   background-image: url('../../assets/background/autorization.bg.jpeg');
   background-position: center center;
-  // background-repeat: no-repeat;
   background-size: cover;
 }
 
@@ -19,14 +18,12 @@
   top: 0px;
   width: 100%;
   height: 10vh;
-  // background-color: white;
   background-color: rgba(250, 250, 250, 0.5);
   z-index: 1;
 }
 
 .main {
   position: relative;
-  // top: 10vh;
   width: 100%;
 }
 
@@ -36,7 +33,6 @@
   justify-content: center;
   position: relative;
   height: 90vh;
-  // background-color: aqua;
   background-image: url('../../assets/background/preview/preview_1.jpeg');
   background-position: center center;
   background-size: cover;
@@ -48,7 +44,6 @@
   justify-content: center;
   position: relative;
   height: 100vh;
-  // background-color: bisque;
   background-image: url('../../assets/background/preview/preview_2.jpeg');
   background-position: center center;
   background-size: cover;
@@ -60,7 +55,6 @@
   justify-content: center;
   position: relative;
   height: 100vh;
-  // background-color: blueviolet;
   background-image: url('../../assets/background/preview/preview_3.jpeg');
   background-position: center center;
   background-size: cover;
@@ -72,7 +66,6 @@
   justify-content: center;
   position: relative;
   height: 100vh;
-  // background-color: burlywood;
   background-image: url('../../assets/background/preview/preview_4.jpeg');
   background-position: center center;
   background-size: cover;
@@ -84,7 +77,6 @@
   justify-content: center;
   position: relative;
   height: 100vh;
-  // background-color: cadetblue;
   background-image: url('../../assets/background/preview/preview_5.jpeg');
   background-position: center center;
   background-size: cover;
@@ -96,7 +88,6 @@
   justify-content: center;
   position: relative;
   height: 100vh;
-  // background-color: chartreuse;
   background-image: url('../../assets/background/preview/preview_6.jpeg');
   background-position: center center;
   background-size: cover;
@@ -106,10 +97,18 @@
   width: 100%;
 }
 
-div.preview > button, div.description , div.demonstration-app, div.about-the-team, div.mini-games, div.statistics {
+div.preview > button,
+div.description,
+div.demonstration-app,
+div.about-the-team,
+div.mini-games,
+div.statistics {
   color: rgb(255, 255, 255);
   font-size: 3em;
   font-weight: bold;
   font-family: Helvetica;
-  text-shadow: 0 1px 0 rgb(114, 112, 112), 0 2px 0 #615f5f, 0 3px 0 #615f5f, 0 4px 0 #b9b9b9, 0 5px 0 #aaa, 0 6px 1px rgba(0,0,0,.1), 0 0 5px rgba(0,0,0,.1), 0 1px 3px rgba(0,0,0,.3), 0 3px 5px rgba(0,0,0,.2), 0 5px 10px rgba(0,0,0,.25), 0 10px 10px rgba(0,0,0,.2), 0 20px 20px rgba(0,0,0,.15);
+  text-shadow: 0 1px 0 rgb(114, 112, 112), 0 2px 0 #615f5f, 0 3px 0 #615f5f, 0 4px 0 #b9b9b9,
+    0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
+    0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
+    0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
 }

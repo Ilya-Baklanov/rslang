@@ -6,6 +6,8 @@ import { UserSettings } from '@/types/response.types';
 import getUserSettings from '@/utils/getUserSettings';
 import putUserSettings from '@/utils/putUserSettings';
 
+import styles from './style.scss';
+
 const Settings = (): JSX.Element => {
   const [wordsPerDay, setWordsPerDay] = useState('10');
   const [optionalSettings, setOptionalSettings] = useState({
@@ -38,10 +40,10 @@ const Settings = (): JSX.Element => {
   };
 
   return (
-    <div>
+    <div className={styles['statistic-wrapper']}>
       <OverlayTrigger placement="right" delay={{ show: 250, hide: 400 }} overlay={renderTooltip}>
         <Form>
-          <Form.Group controlId="formBasicRange">
+          <Form.Group controlId="formBasicRange" className={styles['range-text']}>
             <Form.Label>Range</Form.Label>
             <Form.Control
               type="range"
@@ -51,6 +53,7 @@ const Settings = (): JSX.Element => {
               onChange={e => setWordsPerDay(e.target.value)}
               defaultValue="10"
               value={wordsPerDay}
+              className={styles['range-input']}
             />
           </Form.Group>
         </Form>
