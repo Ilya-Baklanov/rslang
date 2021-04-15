@@ -26,9 +26,6 @@ const Header = (): JSX.Element => (
         <li>
           <a href="#mini-games">Мини игры</a>
         </li>
-        <li>
-          <a href="#statistics">Статистика</a>
-        </li>
         <GuestUserInfo />
         <li>
           <a href="/login">Войти</a>

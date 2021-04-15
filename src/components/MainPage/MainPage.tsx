@@ -29,9 +29,6 @@ const MainPage = (): JSX.Element => (
           <div className={styles['mini-games']} id="mini-games">
             мини игры
           </div>
-          <div className={styles['statistics']} id="statistics">
-            статистика
-          </div>
         </main>
         <footer className={styles['footer-container']}>
           <Footer />
