@@ -100,10 +100,18 @@ export default class Auth {
                 postStatistic({
                   learnedWords: 0,
                   optional: {
-                    audioCallStats: 0,
-                    audioReplyStats: 0,
-                    sprintStats: 0,
-                    savannahStats: 0,
+                    audioCallStats: {
+                      '': 0,
+                    },
+                    audioReplyStats: {
+                      '': 0,
+                    },
+                    sprintStats: {
+                      '': 0,
+                    },
+                    savannahStats: {
+                      '': 0,
+                    },
                     allStats: {
                       '': 0,
                     },

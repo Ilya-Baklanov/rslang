@@ -25,8 +25,8 @@ interface UserWord {
 type UserWords = UserWord[];
 
 interface AggregatedWord extends Word {
-  _id: string;
-  userWord: UserWord;
+  _id?: string;
+  userWord?: UserWord;
 }
 
 interface AggregatedWords {
@@ -41,10 +41,10 @@ interface AggregatedWords {
 interface Statistic {
   learnedWords: number;
   optional: {
-    audioCallStats: any;
-    audioReplyStats: any;
-    sprintStats: any;
-    savannahStats: any;
+    audioCallStats: Record<string, number>;
+    audioReplyStats: Record<string, number>;
+    sprintStats: Record<string, number>;
+    savannahStats: Record<string, number>;
     allStats: Record<string, number>;
   };
 }
