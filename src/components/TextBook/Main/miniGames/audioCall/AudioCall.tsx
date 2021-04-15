@@ -52,13 +52,17 @@ function AudioCall(): JSX.Element {
     history.push('/home/mini-games');
   }
 
+  function playCurrentWord() {
+    setIsSoundPlaying(true);
+    audioRef.current?.play().catch(() => {
+      setIsSoundPlaying(false);
+    });
+  }
+
   function proceedWithWord(wordNumber: number) {
     if (wordNumber < wordsList.length) {
       setResponseSequence(getRandomSequence(wordNumber, wordsList.length));
-      setIsSoundPlaying(true);
-      audioRef.current?.play().catch(() => {
-        setIsSoundPlaying(false);
-      });
+      playCurrentWord();
     } else {
       setShowResults(true);
     }
@@ -129,12 +133,16 @@ function AudioCall(): JSX.Element {
     showInfoIcon();
   }
 
+  function onDontKnow() {
+    processResult(false);
+  }
+
   function AudioCallGame(): JSX.Element {
     return (
       <div className={aCallStyles['audio-call-game']}>
         <GameCounter label="СЛОВА:" count={words} />
         <HealthIndicator count={health} />
-        <SoundIcon isPlaying={isSoundPlaying} />
+        <SoundIcon isPlaying={isSoundPlaying} onClick={playCurrentWord} />
         <audio ref={audioRef} src={`${server}${wordsList[currentWord]?.audio}`} />
         {isDisplayInfo && <InfoIcon isPositive={isRightAnswerReceived} />}
         <StatModal gameResults={gameResults} statShow={showResults} onHide={exitGame} />
@@ -145,15 +153,20 @@ function AudioCall(): JSX.Element {
   function AudioCallControls(): JSX.Element {
     return (
       <div className={aCallStyles['audio-call-controls']}>
-        {responseSequence.map(button => (
-          <Button
-            key={wordsList[button]._id}
-            variant="outline-secondary"
-            onClick={button === currentWord ? onGoodAnswer : onBadAnswer}
-          >
-            {wordsList[button].wordTranslate}
-          </Button>
-        ))}
+        <div className={aCallStyles['response-controls']}>
+          {responseSequence.map(button => (
+            <Button
+              key={wordsList[button]._id}
+              variant="outline-secondary"
+              onClick={button === currentWord ? onGoodAnswer : onBadAnswer}
+            >
+              {wordsList[button].wordTranslate}
+            </Button>
+          ))}
+        </div>
+        <Button variant="danger" onClick={onDontKnow}>
+          Не знаю
+        </Button>
       </div>
     );
   }
