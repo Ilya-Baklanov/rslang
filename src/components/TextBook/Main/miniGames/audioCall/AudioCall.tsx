@@ -147,7 +147,6 @@ function AudioCall(): JSX.Element {
       .catch(() => {});
 
     setIsRightAnswerReceived(isCorrectAnswer);
-    showInfoIcon();
     if (isCorrectAnswer) {
       postUserWord(answerRecord._id, 'learned', { date })
         .then()

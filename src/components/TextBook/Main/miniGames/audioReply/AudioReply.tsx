@@ -1,9 +1,13 @@
+/* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router';
 
 import GameResults from '@/types/gameresult.types';
-import { AggregatedWord, AggregatedWords } from '@/types/response.types';
+import { AggregatedWord, AggregatedWords, Statistic } from '@/types/response.types';
 import getAggregatedWords from '@/utils/getAggregatedWords';
+import getStatistic from '@/utils/getStatistic';
+import postStatistic from '@/utils/postStatistic';
+import postUserWord from '@/utils/postUserWord';
 
 import GameContainer from '../gamesTools/gameContainer/GameContainer';
 import GameCounter from '../gamesTools/gameCounter/GameCounter';
@@ -20,8 +24,8 @@ const resultDisplayDelay = 1000;
 const infoIconDisplayDelay = 2000;
 
 //* ****LEVEL PARAMS*****
-const group = 1;
-const page = 1;
+// const group = 1;
+// const page = 1;
 const wordsQty = 20;
 //* *********************
 
@@ -38,6 +42,30 @@ function AudioReply(): JSX.Element {
   const [currentWord, setCurrentWord] = useState(0);
   const [wordsList, setWordList] = useState<AggregatedWord[]>([]);
   const [showResults, setShowResults] = useState(false);
+  const date = new Date().toLocaleDateString();
+  const filterForRepeatWords = '{"userWord.difficulty":"repeat"}';
+  const filterForNewWords = '{"userWord":null}';
+  const [filter, setFilter] = useState(filterForRepeatWords);
+  const [statistic, setStatistic] = useState<Statistic>({
+    learnedWords: 0,
+    optional: {
+      audioCallStats: {
+        '': 0,
+      },
+      audioReplyStats: {
+        '': 0,
+      },
+      sprintStats: {
+        '': 0,
+      },
+      savannahStats: {
+        '': 0,
+      },
+      allStats: {
+        '': 0,
+      },
+    },
+  });
 
   const history = useHistory();
 
@@ -45,6 +73,14 @@ function AudioReply(): JSX.Element {
     setShowResults(false);
     history.push('/home/mini-games');
   }
+
+  useEffect(() => {
+    getStatistic()
+      .then((responseStatistic: Statistic) => {
+        setStatistic(responseStatistic);
+      })
+      .catch(() => {});
+  }, []);
 
   function proceedWithWord(wordNumber: number) {
     if (wordNumber < wordsList.length) {
@@ -67,30 +103,76 @@ function AudioReply(): JSX.Element {
 
   function processResult(isCorrectAnswer: boolean): void {
     const answerRecord = wordsList[currentWord];
-    if (isCorrectAnswer) {
-      setGameResults((prev: GameResults) => {
-        prev.goodAnswers.push(answerRecord);
-        return prev;
-      });
+    const { learnedWords } = statistic;
+    const {
+      audioCallStats,
+      audioReplyStats,
+      sprintStats,
+      savannahStats,
+      allStats,
+    } = statistic.optional;
+
+    if (allStats[`${date}`]) {
+      allStats[`${date}`] = allStats[`${date}`] + 1;
     } else {
-      setGameResults((prev: GameResults) => {
-        prev.badAnswers.push(answerRecord);
-        return prev;
-      });
+      allStats[`${date}`] = 1;
+    }
+
+    if (sprintStats[`${date}`]) {
+      sprintStats[`${date}`] = sprintStats[`${date}`] + 1;
+    } else {
+      sprintStats[`${date}`] = 1;
+    }
+
+    postStatistic({
+      learnedWords: learnedWords + 1,
+      optional: {
+        audioCallStats,
+        audioReplyStats,
+        sprintStats,
+        savannahStats,
+        allStats,
+      },
+    })
+      .then((content: Statistic) => setStatistic(content))
+      .catch(() => {});
+
+    setIsRightAnswerReceived(isCorrectAnswer);
+    if (isCorrectAnswer) {
+      postUserWord(answerRecord._id, 'learned', { date })
+        .then()
+        .catch(() => {});
+      setGameResults((prev: GameResults) => ({
+        ...prev,
+        goodAnswers: [...prev.goodAnswers, answerRecord],
+      }));
+    } else {
+      postUserWord(answerRecord._id, 'repeat', { date })
+        .then()
+        .catch(() => {});
+      setGameResults((prev: GameResults) => ({
+        ...prev,
+        badAnswers: [...prev.badAnswers, answerRecord],
+      }));
     }
   }
 
   useEffect(() => {
     let cleanupFunction = false;
-    getAggregatedWords(group, page, wordsQty, 'empty')
+    getAggregatedWords('empty', 'empty', wordsQty, filter)
       .then((content: AggregatedWords) => {
-        if (!cleanupFunction) setWordList(content.paginatedResults);
+        if (content.paginatedResults.length < wordsQty) {
+          setFilter(filterForNewWords);
+        }
+        if (!cleanupFunction) {
+          setWordList(content.paginatedResults);
+        }
       })
-      .catch(() => {});
+      .catch(() => setFilter(filterForNewWords));
     return () => {
       cleanupFunction = true;
     };
-  }, []);
+  }, [filter]);
 
   useEffect(() => {
     if (wordsList.length) {
