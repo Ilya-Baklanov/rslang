@@ -40,7 +40,39 @@ const MainPage = (): JSX.Element => (
             демонстрация работы приложения
           </div>
           <div className={styles['about-the-team']} id="about-the-team">
-            о команде
+            <div className={styles['about-the-team-title']}>о команде</div>
+            <div className={styles['developers-cards']}>
+              <Card className={styles['developer1-card']}>
+                <Card.Img variant="top" src="../assets/developers/ilya.jpeg" />
+                <Card.Body>
+                  <Card.Title>Илья Бакланов</Card.Title>
+                  <Card.Text className={styles['about-dev-info']}>
+                    Team Lead. Реализовал структуру приложения, словарь, учебник, статистика,
+                    настройки, запросы на back end.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              <Card className={styles['developer2-card']}>
+                <Card.Img variant="top" src="../assets/developers/vitaly.jpeg" />
+                <Card.Body>
+                  <Card.Title>Виталий Князев</Card.Title>
+                  <Card.Text className={styles['about-dev-info']}>
+                    Реализовал игры &apos;Саванна&apos;, &apos;Аудиовызов&apos;, &apos;Спринт&apos;,
+                    &apos;Аудиответ&apos;, css.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+              <Card className={styles['developer3-card']}>
+                <Card.Img variant="top" src="../assets/developers/dmitry.jpg" />
+                <Card.Body>
+                  <Card.Title>Дмитрий Ананьев</Card.Title>
+                  <Card.Text className={styles['about-dev-info']}>
+                    Реализовал back end: mongo DB + herokou, авторизацию и регистрацию UI и back
+                    end, раздел Разработчики, css.
+                  </Card.Text>
+                </Card.Body>
+              </Card>
+            </div>
           </div>
           <div className={styles['mini-games']} id="mini-games">
             <h3>Мини-игры</h3>
