@@ -42,6 +42,7 @@
 
 .description {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -80,6 +81,7 @@
 
 .mini-games {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: relative;
@@ -107,10 +109,10 @@
 }
 
 div.preview > button,
-div.description,
+.description,
 div.demonstration-app,
 div.about-the-team,
-div.mini-games,
+.mini-games,
 div.statistics {
   color: rgb(255, 255, 255);
   font-size: 3em;
@@ -120,4 +122,40 @@ div.statistics {
     0 5px 0 #aaa, 0 6px 1px rgba(0, 0, 0, 0.1), 0 0 5px rgba(0, 0, 0, 0.1),
     0 1px 3px rgba(0, 0, 0, 0.3), 0 3px 5px rgba(0, 0, 0, 0.2), 0 5px 10px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.2), 0 20px 20px rgba(0, 0, 0, 0.15);
+}
+
+.description {
+  font-size: 2rem;
+  padding: 0 15px;
+  text-shadow: none;
+}
+
+.description-inner {
+  padding: 20px;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+
+.mini-games {
+  font-size: 1rem;
+}
+
+.mini-games-cards {
+  font-size: 1rem;
+  color: #000000;
+  text-shadow: none;
+  font-weight: normal;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  overflow: hidden;
+}
+
+.mini-games-cards > * {
+  width: 23%;
+  @media (max-width: 720px) {
+    width: 48%;
+    margin-bottom: 10px;
+    font-size: 0.8rem;
+  }
 }
