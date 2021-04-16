@@ -181,7 +181,7 @@ const LearningCard = ({
       } = words[currentWord];
 
       setWord({
-        _id: _id!,
+        _id,
         image,
         word,
         textMeaning,
@@ -199,7 +199,7 @@ const LearningCard = ({
 
   useEffect(() => {
     if (answerIsCorrect && filterType === 'new') {
-      postUserWord(words[currentWord]._id!, wordCategory, { date })
+      postUserWord(words[currentWord]._id, wordCategory, { date })
         .then()
         .catch(err => console.log(err));
     }
@@ -208,7 +208,7 @@ const LearningCard = ({
   useEffect(() => {
     if (readyToSubmit) {
       const option = words[currentWord].userWord ? words[currentWord].userWord!.optional : { date };
-      putUserWord(words[currentWord]._id!, wordCategory, option)
+      putUserWord(words[currentWord]._id, wordCategory, option)
         .then()
         .catch(err => console.log(err));
     }

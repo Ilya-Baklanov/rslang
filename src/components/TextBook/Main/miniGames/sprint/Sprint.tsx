@@ -39,7 +39,22 @@ function Sprint(): JSX.Element {
   const [currentWord, setCurrentWord] = useState(0);
   const [englishWord, setEnglishWord] = useState<string>('');
   const [russianWord, setRussianWord] = useState<string>('');
-  const [wordsList, setWordList] = useState<AggregatedWord[]>([]);
+  const [wordsList, setWordList] = useState<AggregatedWord[]>([
+    {
+      _id: '',
+      image: '',
+      word: '',
+      textMeaning: '',
+      textExample: '',
+      transcription: '',
+      textExampleTranslate: '',
+      textMeaningTranslate: '',
+      wordTranslate: '',
+      audio: '',
+      audioExample: '',
+      audioMeaning: '',
+    },
+  ]);
   const [showResults, setShowResults] = useState(false);
   const date = new Date().toLocaleDateString();
   const filterForRepeatWords = '{"userWord.difficulty":"repeat"}';
@@ -166,7 +181,7 @@ function Sprint(): JSX.Element {
     setIsRightAnswerReceived(isCorrectAnswer);
     showInfoIcon();
     if (isCorrectAnswer) {
-      postUserWord(answerRecord._id!, 'learned', { date })
+      postUserWord(answerRecord._id, 'learned', { date })
         .then()
         .catch(() => {});
       setGameResults((prev: GameResults) => ({
@@ -174,7 +189,7 @@ function Sprint(): JSX.Element {
         goodAnswers: [...prev.goodAnswers, answerRecord],
       }));
     } else {
-      postUserWord(answerRecord._id!, 'repeat', { date })
+      postUserWord(answerRecord._id, 'repeat', { date })
         .then()
         .catch(() => {});
       setGameResults((prev: GameResults) => ({

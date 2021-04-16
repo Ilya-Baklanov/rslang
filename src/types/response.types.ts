@@ -1,7 +1,7 @@
 interface Word {
-  id: string;
-  group: number;
-  page: number;
+  id?: string;
+  group?: number;
+  page?: number;
   word: string;
   image: string;
   audio: string;
@@ -25,7 +25,7 @@ interface UserWord {
 type UserWords = UserWord[];
 
 interface AggregatedWord extends Word {
-  _id?: string;
+  _id: string;
   userWord?: UserWord;
 }
 
