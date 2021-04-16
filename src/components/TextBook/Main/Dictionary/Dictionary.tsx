@@ -28,17 +28,17 @@ const Dictionary = (): JSX.Element => {
   }, [wordCategory, currentPage, currentGroup]);
 
   const learnedWordHandler = () => {
-    setCurrentPage(0);
+    setCurrentPage(1);
     setWordCategory('learned');
   };
 
   const hardWordHandler = () => {
-    setCurrentPage(0);
+    setCurrentPage(1);
     setWordCategory('hard');
   };
 
   const deletedWordHandler = () => {
-    setCurrentPage(0);
+    setCurrentPage(1);
     setWordCategory('deleted');
   };
 
@@ -53,7 +53,7 @@ const Dictionary = (): JSX.Element => {
   };
 
   const nextPageHandler = () => {
-    const pageCount = Math.floor(totalCountWords / 10);
+    const pageCount = Math.ceil(totalCountWords / 10);
     if (currentPage < pageCount) {
       setCurrentPage(currentPage + 1);
     }
