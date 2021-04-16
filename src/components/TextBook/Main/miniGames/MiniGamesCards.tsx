@@ -1,7 +1,7 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { Route, Link } from 'react-router-dom';
+import { Route, useHistory } from 'react-router-dom';
 
 import { MiniGamesCardsProps } from '@/types/props.types';
 import { State } from '@/types/states.types';
@@ -10,24 +10,34 @@ import styles from './style.scss';
 
 const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
   const currentLocation = isAuth ? '/home' : '/rs-lang/guest';
+  const history = useHistory();
+
+  const gameRedirectionHandler = (gameName: string) => {
+    history.push(`${currentLocation}/mini-games/${gameName}`);
+  };
 
   return (
     <Route exact path={`${currentLocation}/mini-games`}>
       <div className={styles['mini-games-cards-wrapper']}>
         <Card>
           <Card.Img variant="top" src="../../../../assets/image/sprint.jpg" />
-          <Card.Body>
+          <Card.Body className={styles['card-body']}>
             <Card.Title>Спринт</Card.Title>
             <Card.Text>
               Рекомендуется начать именно с неё. Задача проста: совпадает предложенный перевод с
               английским словом или нет? Однако поспешите – время в игре ограничено
             </Card.Text>
-            <Link to={`${currentLocation}/mini-games/sprint`}>Играть</Link>
+            <Button
+              onClick={() => gameRedirectionHandler('sprint')}
+              className={styles['play-game-btn']}
+            >
+              Играть
+            </Button>
           </Card.Body>
         </Card>
         <Card>
           <Card.Img variant="top" src="../../../../assets/image/savannah.jpg" />
-          <Card.Body>
+          <Card.Body className={styles['card-body']}>
             <Card.Title>Саванна</Card.Title>
             <Card.Text>
               Представьте себя на &quot;сафари&quot;, однако охотитесь не на животных, а на новые
@@ -36,12 +46,17 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               ошибку&quot;. Советуем оставить неизвестное слово без ответа, чтобы вернуться к нему
               позднее
             </Card.Text>
-            <Link to={`${currentLocation}/mini-games/savannah`}>Играть</Link>
+            <Button
+              onClick={() => gameRedirectionHandler('savannah')}
+              className={styles['play-game-btn']}
+            >
+              Играть
+            </Button>
           </Card.Body>
         </Card>
         <Card>
           <Card.Img variant="top" src="../../../../assets/image/audio_call.jpg" />
-          <Card.Body>
+          <Card.Body className={styles['card-body']}>
             <Card.Title>Аудио Вызов</Card.Title>
             <Card.Text>
               Знание языка – это не только умение читать и писать, но и понимание устной речи.
@@ -50,18 +65,28 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               расслышали слово правильно – прослушайте его еще раз при помощи клика по иконке
               динамика
             </Card.Text>
-            <Link to={`${currentLocation}/mini-games/audio-call`}>Играть</Link>
+            <Button
+              onClick={() => gameRedirectionHandler('audio-call')}
+              className={styles['play-game-btn']}
+            >
+              Играть
+            </Button>
           </Card.Body>
         </Card>
         <Card>
           <Card.Img variant="top" src="../../../../assets/image/audio_reply.jpg" />
-          <Card.Body>
+          <Card.Body className={styles['card-body']}>
             <Card.Title>Аудио Ответ</Card.Title>
             <Card.Text>
               &quot;Вишенка на торте&quot;. Тренируйте своё произношение до тех пор, пока не
               приблизитесь к совершенству. Работает только в браузере Chrome
             </Card.Text>
-            <Link to={`${currentLocation}/mini-games/audio-reply`}>Играть</Link>
+            <Button
+              onClick={() => gameRedirectionHandler('audio-reply')}
+              className={styles['play-game-btn']}
+            >
+              Играть
+            </Button>
           </Card.Body>
         </Card>
       </div>
