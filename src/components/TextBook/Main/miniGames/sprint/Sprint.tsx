@@ -37,8 +37,6 @@ function Sprint(): JSX.Element {
   const [isRightAnswerReceived, setIsRightAnswerReceived] = useState(true);
   const [gameResults, setGameResults] = useState<GameResults>({ goodAnswers: [], badAnswers: [] });
   const [currentWord, setCurrentWord] = useState(0);
-  const [englishWord, setEnglishWord] = useState<string>('');
-  const [russianWord, setRussianWord] = useState<string>('');
   const [wordsList, setWordList] = useState<AggregatedWord[]>([
     {
       _id: '',
@@ -55,6 +53,8 @@ function Sprint(): JSX.Element {
       audioMeaning: '',
     },
   ]);
+  const [englishWord, setEnglishWord] = useState<string>('');
+  const [russianWord, setRussianWord] = useState<string>('');
   const [showResults, setShowResults] = useState(false);
   const date = new Date().toLocaleDateString();
   const filterForRepeatWords = '{"userWord.difficulty":"repeat"}';
