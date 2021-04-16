@@ -4,8 +4,11 @@ import { Button } from 'react-bootstrap';
 import { useHistory } from 'react-router';
 
 import GameResults from '@/types/gameresult.types';
-import { AggregatedWord, AggregatedWords } from '@/types/response.types';
+import { AggregatedWord, AggregatedWords, Statistic } from '@/types/response.types';
 import getAggregatedWords from '@/utils/getAggregatedWords';
+import getStatistic from '@/utils/getStatistic';
+import postStatistic from '@/utils/postStatistic';
+import postUserWord from '@/utils/postUserWord';
 
 import FallingContainer, { animationBlow } from '../gamesTools/fallingContainer/FallingContainer';
 import GameContainer from '../gamesTools/gameContainer/GameContainer';
@@ -23,8 +26,8 @@ const wordRespawnDelay = 200;
 const infoIconDisplayDelay = 1000;
 
 //* ****LEVEL PARAMS*****
-const group = 1;
-const page = 1;
+// const group = 1;
+// const page = 1;
 const wordsQty = 20;
 //* *********************
 
@@ -42,6 +45,30 @@ function Savannah(): JSX.Element {
   const [wordsList, setWordList] = useState<AggregatedWord[]>([]);
   const [showResults, setShowResults] = useState(false);
   const [responseSequence, setResponseSequence] = useState<number[]>([]);
+  const date = new Date().toLocaleDateString();
+  const filterForRepeatWords = '{"userWord.difficulty":"repeat"}';
+  const filterForNewWords = '{"userWord":null}';
+  const [filter, setFilter] = useState(filterForRepeatWords);
+  const [statistic, setStatistic] = useState<Statistic>({
+    learnedWords: 0,
+    optional: {
+      audioCallStats: {
+        '': 0,
+      },
+      audioReplyStats: {
+        '': 0,
+      },
+      sprintStats: {
+        '': 0,
+      },
+      savannahStats: {
+        '': 0,
+      },
+      allStats: {
+        '': 0,
+      },
+    },
+  });
 
   const history = useHistory();
 
@@ -49,6 +76,14 @@ function Savannah(): JSX.Element {
     setShowResults(false);
     history.push('/home/mini-games');
   }
+
+  useEffect(() => {
+    getStatistic()
+      .then((responseStatistic: Statistic) => {
+        setStatistic(responseStatistic);
+      })
+      .catch(() => {});
+  }, []);
 
   function proceedWithWord(wordNumber: number) {
     if (wordNumber < wordsList.length) {
@@ -69,16 +104,56 @@ function Savannah(): JSX.Element {
 
   function processResult(isCorrectAnswer: boolean): void {
     const answerRecord = wordsList[currentWord];
-    if (isCorrectAnswer) {
-      setGameResults((prev: GameResults) => {
-        prev.goodAnswers.push(answerRecord);
-        return prev;
-      });
+    const { learnedWords } = statistic;
+    const {
+      audioCallStats,
+      audioReplyStats,
+      sprintStats,
+      savannahStats,
+      allStats,
+    } = statistic.optional;
+
+    if (allStats[`${date}`]) {
+      allStats[`${date}`] = allStats[`${date}`] + 1;
     } else {
-      setGameResults((prev: GameResults) => {
-        prev.badAnswers.push(answerRecord);
-        return prev;
-      });
+      allStats[`${date}`] = 1;
+    }
+
+    if (sprintStats[`${date}`]) {
+      sprintStats[`${date}`] = sprintStats[`${date}`] + 1;
+    } else {
+      sprintStats[`${date}`] = 1;
+    }
+
+    postStatistic({
+      learnedWords: learnedWords + 1,
+      optional: {
+        audioCallStats,
+        audioReplyStats,
+        sprintStats,
+        savannahStats,
+        allStats,
+      },
+    })
+      .then((content: Statistic) => setStatistic(content))
+      .catch(() => {});
+
+    if (isCorrectAnswer) {
+      postUserWord(answerRecord._id, 'learned', { date })
+        .then()
+        .catch(() => {});
+      setGameResults((prev: GameResults) => ({
+        ...prev,
+        goodAnswers: [...prev.goodAnswers, answerRecord],
+      }));
+    } else {
+      postUserWord(answerRecord._id, 'repeat', { date })
+        .then()
+        .catch(() => {});
+      setGameResults((prev: GameResults) => ({
+        ...prev,
+        badAnswers: [...prev.badAnswers, answerRecord],
+      }));
     }
     setWords((prev: number) => prev - 1);
     setCurrentWord((prev: number) => prev + 1);
@@ -86,15 +161,20 @@ function Savannah(): JSX.Element {
 
   useEffect(() => {
     let cleanupFunction = false;
-    getAggregatedWords(group, page, wordsQty, 'empty')
+    getAggregatedWords('empty', 'empty', wordsQty, filter)
       .then((content: AggregatedWords) => {
-        if (!cleanupFunction) setWordList(content.paginatedResults);
+        if (content.paginatedResults.length < wordsQty) {
+          setFilter(filterForNewWords);
+        }
+        if (!cleanupFunction) {
+          setWordList(content.paginatedResults);
+        }
       })
-      .catch(() => {});
+      .catch(() => setFilter(filterForNewWords));
     return () => {
       cleanupFunction = true;
     };
-  }, []);
+  }, [filter]);
 
   useEffect(() => {
     if (wordsList.length) {

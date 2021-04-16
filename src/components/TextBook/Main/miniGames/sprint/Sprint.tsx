@@ -103,7 +103,7 @@ function Sprint(): JSX.Element {
   }, []);
 
   function proceedWithWord(wordNumber: number) {
-    if (wordNumber < wordsQty) {
+    if (wordNumber < wordsList.length) {
       setEnglishWord(wordsList[wordNumber].word);
       const isCorrectVariantInUse = Boolean(getRandomNumber(0, 1));
       if (isCorrectVariantInUse) {
@@ -113,7 +113,7 @@ function Sprint(): JSX.Element {
         do {
           variant = getRandomNumber(0, wordsQty - 1);
         } while (variant === wordNumber);
-        console.log(variant);
+        // console.log(variant);
         setRussianWord(wordsList[variant].wordTranslate);
       }
       setIsCorrectVariantProposed(isCorrectVariantInUse);
@@ -190,7 +190,7 @@ function Sprint(): JSX.Element {
     let cleanupFunction = false;
     getAggregatedWords('empty', 'empty', wordsQty, filter)
       .then((content: AggregatedWords) => {
-        if (content.paginatedResults.length < 20) {
+        if (content.paginatedResults.length < wordsQty) {
           setFilter(filterForNewWords);
         }
         if (!cleanupFunction) {
