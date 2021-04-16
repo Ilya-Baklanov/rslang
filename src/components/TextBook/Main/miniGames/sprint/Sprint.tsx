@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 import React, { useState, useEffect } from 'react';
 import { Button } from 'react-bootstrap';
@@ -37,22 +38,7 @@ function Sprint(): JSX.Element {
   const [isRightAnswerReceived, setIsRightAnswerReceived] = useState(true);
   const [gameResults, setGameResults] = useState<GameResults>({ goodAnswers: [], badAnswers: [] });
   const [currentWord, setCurrentWord] = useState(0);
-  const [wordsList, setWordList] = useState<AggregatedWord[]>([
-    {
-      _id: '',
-      image: '',
-      word: '',
-      textMeaning: '',
-      textExample: '',
-      transcription: '',
-      textExampleTranslate: '',
-      textMeaningTranslate: '',
-      wordTranslate: '',
-      audio: '',
-      audioExample: '',
-      audioMeaning: '',
-    },
-  ]);
+  const [wordsList, setWordList] = useState<AggregatedWord[]>([]);
   const [englishWord, setEnglishWord] = useState<string>('');
   const [russianWord, setRussianWord] = useState<string>('');
   const [showResults, setShowResults] = useState(false);
@@ -127,6 +113,7 @@ function Sprint(): JSX.Element {
         do {
           variant = getRandomNumber(0, wordsQty - 1);
         } while (variant === wordNumber);
+        console.log(variant);
         setRussianWord(wordsList[variant].wordTranslate);
       }
       setIsCorrectVariantProposed(isCorrectVariantInUse);

@@ -40,6 +40,8 @@ div.category-buttons > button {
   height: 10%;
   border: solid 1px blueviolet;
   border-radius: 7px;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(40px);
 }
 
 .image {
@@ -59,3 +61,25 @@ div.category-buttons > button {
   display: flex;
   width: 25%;
 }
+
+.pagination-buttons button {
+  background-color: deepskyblue;
+  border-radius: 7px;
+}
+
+.pagination-buttons button:hover {
+  background-color: greenyellow;
+}
+
+.pagination-buttons button:active {
+  box-shadow: 0 0 20px 7px green;
+  background-color: greenyellow;
+}
+
+.current-page-number {
+  background: blanchedalmond;
+  border-radius: 50%;
+  width: 25px;
+}
+
+
