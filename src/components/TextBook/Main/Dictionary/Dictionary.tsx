@@ -11,10 +11,15 @@ const Dictionary = (): JSX.Element => {
   const [totalCountWords, settTotalCountWords] = useState(0);
   const [wordCategory, setWordCategory] = useState('learned');
   const [currentGroup, setCurrentGroup] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
-    getAggregatedWords(currentGroup, currentPage, 10, `{"userWord.difficulty":"${wordCategory}"}`)
+    getAggregatedWords(
+      currentGroup,
+      currentPage - 1,
+      10,
+      `{"userWord.difficulty":"${wordCategory}"}`
+    )
       .then((content: AggregatedWords) => {
         setWords(content.paginatedResults);
         settTotalCountWords(content.totalCount[0].count);
@@ -42,13 +47,14 @@ const Dictionary = (): JSX.Element => {
   };
 
   const prevPageHandler = () => {
-    if (currentPage > 0) {
+    if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
 
   const nextPageHandler = () => {
-    if (currentPage < Math.floor(totalCountWords / 10)) {
+    const pageCount = Math.floor(totalCountWords / 10);
+    if (currentPage < pageCount) {
       setCurrentPage(currentPage + 1);
     }
   };
@@ -101,7 +107,7 @@ const Dictionary = (): JSX.Element => {
         <button type="button" onClick={prevPageHandler}>
           PREV
         </button>
-        <div>{currentPage}</div>
+        <div className={styles['current-page-number']}>{currentPage}</div>
         <button type="button" onClick={nextPageHandler}>
           NEXT
         </button>
