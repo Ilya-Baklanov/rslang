@@ -10,6 +10,7 @@ import { State } from '@/types/states.types';
 import getAggregatedWords from '@/utils/getAggregatedWords';
 import getWords from '@/utils/getWords';
 
+import WordCategorySwitcher from './WordCategorySwitcher/WordCategorySwitcher';
 import styles from './style.scss';
 
 const Dictionary = ({ isAuth }: DictionaryProps): JSX.Element => {
@@ -19,6 +20,7 @@ const Dictionary = ({ isAuth }: DictionaryProps): JSX.Element => {
   const [currentGroup, setCurrentGroup] = useState(0);
   const [currentPageAll, setCurrentPageAll] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
+  const [isSwitchWordCategory, setIsSwitchWordCategory] = useState(false);
   const pageCount = wordCategory === 'all' ? 30 : Math.ceil(totalCountWords / 10);
 
   const history = useHistory();
@@ -30,7 +32,7 @@ const Dictionary = ({ isAuth }: DictionaryProps): JSX.Element => {
           setWords(content);
         })
         .catch((err) => console.log(err));
-    } else if (isAuth) {
+    } else if (isAuth || isSwitchWordCategory) {
       getAggregatedWords(
         currentGroup,
         currentPage - 1,
@@ -40,10 +42,11 @@ const Dictionary = ({ isAuth }: DictionaryProps): JSX.Element => {
         .then((content: AggregatedWords) => {
           setWords(content.paginatedResults);
           settTotalCountWords(content.totalCount[0].count);
+          setIsSwitchWordCategory(false);
         })
         .catch((err) => console.log(err));
     }
-  }, [wordCategory, currentPage, currentGroup, currentPageAll]);
+  }, [wordCategory, currentPage, currentGroup, currentPageAll, isSwitchWordCategory]);
 
   const allWordHandler = () => {
     setWordCategory('all');
@@ -69,7 +72,11 @@ const Dictionary = ({ isAuth }: DictionaryProps): JSX.Element => {
   };
 
   const inputSwitchPageHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setCurrentPageAll(+event.target.value);
+    if (wordCategory === 'all') {
+      setCurrentPageAll(+event.target.value);
+    } else {
+      setCurrentPage(+event.target.value);
+    }
   };
 
   const prevPageHandler = () => {
@@ -94,6 +101,10 @@ const Dictionary = ({ isAuth }: DictionaryProps): JSX.Element => {
 
   const redirectToLogin = () => {
     history.push('/login');
+  };
+
+  const onSwitch = () => {
+    setIsSwitchWordCategory(true);
   };
 
   return (
@@ -172,22 +183,20 @@ const Dictionary = ({ isAuth }: DictionaryProps): JSX.Element => {
             NEXT
           </button>
         </div>
-        {wordCategory === 'all' && (
-          <Form.Group className={styles['form-item']}>
-            <Form.Label className={styles['form-label']}>Страница (от 1 до 30)</Form.Label>
-            <Form.Control
-              className={styles['form-control']}
-              type="number"
-              max={30}
-              min={1}
-              value={currentPageAll}
-              onChange={inputSwitchPageHandler}
-              size="sm"
-            />
-          </Form.Group>
-        )}
+        <Form.Group className={styles['form-item']}>
+          <Form.Label className={styles['form-label']}>Страница (от 1 до 30)</Form.Label>
+          <Form.Control
+            className={styles['form-control']}
+            type="number"
+            max={pageCount}
+            min={1}
+            value={wordCategory === 'all' ? currentPageAll : currentPage}
+            onChange={inputSwitchPageHandler}
+            size="sm"
+          />
+        </Form.Group>
       </Form>
-      {isAuth ? (
+      {words.length !== 0 ? (
         <div className={styles['word-list']}>
           {words.map((word: AggregatedWord) => (
             <div className={styles['word-wrapper']}>
@@ -200,6 +209,9 @@ const Dictionary = ({ isAuth }: DictionaryProps): JSX.Element => {
                 <span className={styles['word']}>{word.word}</span>
                 <span className={styles['word-translate']}>{word.wordTranslate}</span>
               </div>
+              {wordCategory !== 'all' && (
+                <WordCategorySwitcher wordCategory={wordCategory} word={word} onSwitch={onSwitch} />
+              )}
             </div>
           ))}
         </div>
