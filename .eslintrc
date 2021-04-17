@@ -77,10 +77,7 @@
       }
     ],
     "@typescript-eslint/dot-notation": "off",
-    "arrow-parens": [
-      "error",
-      "as-needed"
-    ],
+    "arrow-parens": "off",
     "camelcase": "error",
     "comma-dangle": [
       "error",

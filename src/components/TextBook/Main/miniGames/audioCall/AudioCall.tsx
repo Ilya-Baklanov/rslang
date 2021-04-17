@@ -235,7 +235,7 @@ function AudioCall(): JSX.Element {
     return (
       <div className={aCallStyles['audio-call-controls']}>
         <div className={aCallStyles['response-controls']}>
-          {responseSequence.map(button => (
+          {responseSequence.map((button) => (
             <Button
               key={wordsList[button]._id}
               variant="outline-secondary"

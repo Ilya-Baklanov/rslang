@@ -113,7 +113,7 @@ function Sprint(): JSX.Element {
         do {
           variant = getRandomNumber(0, wordsQty - 1);
         } while (variant === wordNumber);
-        // console.log(variant);
+        console.log(variant);
         setRussianWord(wordsList[variant].wordTranslate);
       }
       setIsCorrectVariantProposed(isCorrectVariantInUse);

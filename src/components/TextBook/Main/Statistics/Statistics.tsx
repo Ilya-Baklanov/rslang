@@ -4,8 +4,12 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Chart, ChartType, registerables } from 'chart.js';
 import React, { useEffect, useRef, useState } from 'react';
+import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
 
+import { StatisticProps } from '@/types/props.types';
 import { Statistic } from '@/types/response.types';
+import { State } from '@/types/states.types';
 import getStatistic from '@/utils/getStatistic';
 
 import styles from './style.scss';
@@ -28,7 +32,7 @@ interface Config {
   };
 }
 
-const Statistics = (): JSX.Element => {
+const Statistics = ({ isAuth }: StatisticProps): JSX.Element => {
   const [readyToRender, setReadyToRender] = useState(false);
   const [allWordsLearned, setAllWordsLearned] = useState(0);
   const [chartLabels, setChartLabels] = useState(['00.00.0000']);
@@ -56,6 +60,8 @@ const Statistics = (): JSX.Element => {
   const chartRef = useRef<HTMLCanvasElement>(null);
   const chartEl = 'statisticChart';
 
+  const history = useHistory();
+
   useEffect(() => {
     getStatistic()
       .then((responseStatistic: Statistic) => {
@@ -65,7 +71,7 @@ const Statistics = (): JSX.Element => {
         setChartData(Object.values(responseStatistic.optional.allStats));
         setAllWordsLearned(responseStatistic.learnedWords);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }, []);
 
   useEffect(() => {
@@ -97,23 +103,41 @@ const Statistics = (): JSX.Element => {
     }
   }, [config]);
 
+  const redirectToLogin = () => {
+    history.push('/login');
+  };
+
   return (
-    <div className={styles['statistics-wrapper']}>
-      <div>
-        <canvas
-          id="statisticChart"
-          width="400"
-          height="400"
-          ref={chartRef}
-          className={styles['statistic-chart']}
-        />
-      </div>
-      <div className={styles['all-learned-words']}>
-        Выучено слов:
-        {allWordsLearned}
-      </div>
-    </div>
+    <React.Fragment>
+      {isAuth ? (
+        <div className={styles['statistics-wrapper']}>
+          <div>
+            <canvas
+              id="statisticChart"
+              width="400"
+              height="400"
+              ref={chartRef}
+              className={styles['statistic-chart']}
+            />
+          </div>
+          <div className={styles['all-learned-words']}>
+            Выучено слов:
+            {allWordsLearned}
+          </div>
+        </div>
+      ) : (
+        <button onClick={redirectToLogin} type="button">
+          <div className={styles['no-words']}>
+            Изучайте слова, чтобы здесь появилась ваша статистика!
+          </div>
+        </button>
+      )}
+    </React.Fragment>
   );
 };
 
-export default Statistics;
+const mapStateToProps = (state: State) => ({
+  isAuth: state.authReducer?.auth,
+});
+
+export default connect(mapStateToProps, null)(Statistics);

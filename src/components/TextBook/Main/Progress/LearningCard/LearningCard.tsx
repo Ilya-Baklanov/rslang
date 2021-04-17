@@ -9,6 +9,7 @@
 /* eslint-disable no-console */
 import React, { useEffect, useRef, useState } from 'react';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router';
 
 import Loader from '@/components/UI/Loader/Loader';
 import { showLoaderAction, hideLoaderAction } from '@/redux/actions';
@@ -33,6 +34,7 @@ const LearningCard = ({
   showLoaderAction,
   hideLoaderAction,
   loaderIsActive,
+  isAuth,
 }: LearningCardProps): JSX.Element => {
   const [words, setWords] = useState<AggregatedWord[]>([]);
   const [word, setWord] = useState({
@@ -92,6 +94,8 @@ const LearningCard = ({
   const textMeaningRef = useRef<HTMLAudioElement>(null);
   const textExampleRef = useRef<HTMLAudioElement>(null);
 
+  const history = useHistory();
+
   const resetStateLearningCard = () => {
     setReadyToSubmit(false);
     setInputState('');
@@ -103,7 +107,7 @@ const LearningCard = ({
     if (date !== new Date().toLocaleDateString()) {
       putUserSettings(10, settings.optional)
         .then((responseSettings: UserSettings) => setSettings(responseSettings))
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     }
   }, []);
 
@@ -125,20 +129,20 @@ const LearningCard = ({
     setCurrentWord(0);
     getUserSettings()
       .then((responseSettings: UserSettings) => setSettings(responseSettings))
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
 
     getStatistic()
       .then((responseStatistic: Statistic) => {
         setStatistic(responseStatistic);
         setLearnedWordsToday(responseStatistic.optional.allStats[`${date}`]);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
 
     getAggregatedWords('empty', 'empty', 'empty', filter)
       .then((content: AggregatedWords) => {
         setWords(content.paginatedResults);
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   }, [filter]);
 
   useEffect(() => {
@@ -149,14 +153,14 @@ const LearningCard = ({
       if (incrementWordsLimit) {
         putUserSettings(settings.wordsPerDay + 10, settings.optional)
           .then((responseSettings: UserSettings) => setSettings(responseSettings))
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
 
         getAggregatedWords('empty', 'empty', 'empty', filter)
           .then((content: AggregatedWords) => {
             setWords(content.paginatedResults);
             resetStateLearningCard();
           })
-          .catch(err => console.log(err));
+          .catch((err) => console.log(err));
       }
 
       setCurrentWord(0);
@@ -201,7 +205,7 @@ const LearningCard = ({
     if (answerIsCorrect && filterType === 'new') {
       postUserWord(words[currentWord]._id, wordCategory, { date })
         .then()
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     }
   }, [answerIsCorrect]);
 
@@ -210,7 +214,7 @@ const LearningCard = ({
       const option = words[currentWord].userWord ? words[currentWord].userWord!.optional : { date };
       putUserWord(words[currentWord]._id, wordCategory, option)
         .then()
-        .catch(err => console.log(err));
+        .catch((err) => console.log(err));
     }
   }, [wordCategory]);
 
@@ -257,7 +261,7 @@ const LearningCard = ({
       },
     })
       .then((content: Statistic) => setStatistic(content))
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
 
     if (currentWord < 9) {
       setCurrentWord(currentWord + 1);
@@ -306,6 +310,10 @@ const LearningCard = ({
     };
   };
 
+  const redirectToLogin = () => {
+    history.push('/login');
+  };
+
   const {
     wordTranslate,
     textTranslate,
@@ -317,7 +325,13 @@ const LearningCard = ({
   return (
     <React.Fragment>
       {words.length === 0 ? (
-        <div className={styles['no-words']}>Добавьте слова</div>
+        isAuth ? (
+          <div className={styles['no-words']}>Добавьте слова</div>
+        ) : (
+          <button onClick={redirectToLogin} type="button">
+            <div className={styles['no-words']}>Добавьте слова</div>
+          </button>
+        )
       ) : (
         <div className={styles['learning-card-wrapper']}>
           <div className={styles['learning-card']}>
@@ -475,6 +489,7 @@ const LearningCard = ({
 
 const mapStateToProps = (state: State) => ({
   loaderIsActive: state.loaderReducer!.isLoading,
+  isAuth: state.authReducer?.auth,
 });
 
 const mapDispatchToProps: Actions = {

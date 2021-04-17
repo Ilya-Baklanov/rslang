@@ -245,7 +245,7 @@ function Savannah(): JSX.Element {
   function SavannahControls(): JSX.Element {
     return (
       <div className={savannahStyles['savannah-controls']}>
-        {responseSequence.map(button => (
+        {responseSequence.map((button) => (
           <Button
             key={wordsList[button]._id}
             variant="outline-secondary"

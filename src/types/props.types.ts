@@ -27,6 +27,19 @@ interface LearningCardProps {
   showLoaderAction?: AnyActionCreator;
   hideLoaderAction?: AnyActionCreator;
   loaderIsActive?: boolean;
+  isAuth?: boolean;
+}
+
+interface DictionaryProps {
+  isAuth?: boolean;
+}
+
+interface StatisticProps {
+  isAuth?: boolean;
+}
+
+interface SettingsProps {
+  isAuth?: boolean;
 }
 
 interface MainContentProps {
@@ -60,6 +73,9 @@ export {
   TextBookProps,
   ProgressProps,
   LearningCardProps,
+  DictionaryProps,
+  StatisticProps,
+  SettingsProps,
   BurgerMenuProps,
   QuitActionProps,
   MainContentProps,
