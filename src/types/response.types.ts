@@ -25,12 +25,12 @@ interface UserWord {
 type UserWords = UserWord[];
 
 interface AggregatedWord extends Word {
-  _id: string;
+  _id?: string;
   userWord?: UserWord;
 }
 
 interface AggregatedWords {
-  paginatedResults: AggregatedWord[];
+  paginatedResults: AggregatedWord[] | Words;
   totalCount: [
     {
       count: number;

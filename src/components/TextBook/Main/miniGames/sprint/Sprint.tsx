@@ -168,7 +168,7 @@ function Sprint(): JSX.Element {
         .then((content: Statistic) => setStatistic(content))
         .catch(() => {});
 
-      postUserWord(answerRecord._id, 'learned', { date })
+      postUserWord(answerRecord._id!, 'learned', { date })
         .then()
         .catch(() => {});
       setGameResults((prev: GameResults) => ({
