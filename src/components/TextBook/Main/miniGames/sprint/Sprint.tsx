@@ -140,34 +140,34 @@ function Sprint(): JSX.Element {
       allStats,
     } = statistic.optional;
 
-    if (allStats[`${date}`]) {
-      allStats[`${date}`] = allStats[`${date}`] + 1;
-    } else {
-      allStats[`${date}`] = 1;
-    }
-
-    if (sprintStats[`${date}`]) {
-      sprintStats[`${date}`] = sprintStats[`${date}`] + 1;
-    } else {
-      sprintStats[`${date}`] = 1;
-    }
-
-    postStatistic({
-      learnedWords: learnedWords + 1,
-      optional: {
-        audioCallStats,
-        audioReplyStats,
-        sprintStats,
-        savannahStats,
-        allStats,
-      },
-    })
-      .then((content: Statistic) => setStatistic(content))
-      .catch(() => {});
-
     setIsRightAnswerReceived(isCorrectAnswer);
     showInfoIcon();
     if (isCorrectAnswer) {
+      if (allStats[`${date}`]) {
+        allStats[`${date}`] = allStats[`${date}`] + 1;
+      } else {
+        allStats[`${date}`] = 1;
+      }
+
+      if (sprintStats[`${date}`]) {
+        sprintStats[`${date}`] = sprintStats[`${date}`] + 1;
+      } else {
+        sprintStats[`${date}`] = 1;
+      }
+
+      postStatistic({
+        learnedWords: learnedWords + 1,
+        optional: {
+          audioCallStats,
+          audioReplyStats,
+          sprintStats,
+          savannahStats,
+          allStats,
+        },
+      })
+        .then((content: Statistic) => setStatistic(content))
+        .catch(() => {});
+
       postUserWord(answerRecord._id, 'learned', { date })
         .then()
         .catch(() => {});
@@ -176,9 +176,6 @@ function Sprint(): JSX.Element {
         goodAnswers: [...prev.goodAnswers, answerRecord],
       }));
     } else {
-      postUserWord(answerRecord._id, 'repeat', { date })
-        .then()
-        .catch(() => {});
       setGameResults((prev: GameResults) => ({
         ...prev,
         badAnswers: [...prev.badAnswers, answerRecord],

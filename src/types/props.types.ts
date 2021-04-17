@@ -10,6 +10,7 @@ interface AuthorizationProps {
 interface QuitActionProps {
   quitAction?: AnyActionCreator;
   burgerIsActive?: boolean;
+  isAuth?: boolean;
 }
 
 interface TextBookProps {

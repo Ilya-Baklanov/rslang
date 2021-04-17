@@ -8,7 +8,7 @@ import { State } from '@/types/states.types';
 
 import styles from './style.scss';
 
-const QuitButton = ({ quitAction, burgerIsActive }: QuitActionProps) => {
+const QuitButton = ({ quitAction, burgerIsActive, isAuth }: QuitActionProps) => {
   const history = useHistory();
   return (
     <button
@@ -20,13 +20,14 @@ const QuitButton = ({ quitAction, burgerIsActive }: QuitActionProps) => {
       }}
     >
       <img className={styles['quit-icon']} src="../../assets/image/logout_icon.png" alt="logout" />
-      <div className={styles['quit-button-label']}>Выйти</div>
+      <div className={styles['quit-button-label']}>{isAuth ? 'Выйти' : 'Войти'}</div>
     </button>
   );
 };
 
 const mapStateToProps = (state: State): QuitActionProps => ({
   burgerIsActive: state.burgerMenuReducer!.burgerIsActive,
+  isAuth: state.authReducer?.auth,
 });
 
 const mapDispatchToProps = {

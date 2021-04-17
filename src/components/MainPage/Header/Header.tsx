@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Logo from '@/components/UI/Logo/Logo';
+import QuitButton from '@/components/UI/buttons/QuitButton';
 
 import GuestUserInfo from './GuestUserInfo';
 import styles from './style.scss';
@@ -27,9 +28,7 @@ const Header = (): JSX.Element => (
           <a href="#mini-games">Мини игры</a>
         </li>
         <GuestUserInfo />
-        <li>
-          <a href="/login">Войти</a>
-        </li>
+        <QuitButton />
       </ul>
     </nav>
   </div>
