@@ -37,7 +37,15 @@ const MainPage = (): JSX.Element => (
             </div>
           </div>
           <div className={styles['demonstration-app']} id="demonstration-app">
-            демонстрация работы приложения
+            Демонстрация работы приложения
+            <iframe
+              className={styles['demonstration-app-video']}
+              src="https://www.youtube.com/embed/Y_l1eR0ag8E"
+              title="YouTube video player"
+              frameBorder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
           <div className={styles['about-the-team']} id="about-the-team">
             <div className={styles['about-the-team-title']}>о команде</div>

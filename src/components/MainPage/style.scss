@@ -56,8 +56,9 @@
 
 .demonstration-app {
   display: flex;
+  flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   position: relative;
   height: 100vh;
   background-image: url('../../assets/background/preview/preview_3.jpeg');
@@ -65,6 +66,12 @@
   background-size: cover;
   transition: 0.2s ease-in-out;
   opacity: 1;
+}
+
+.demonstration-app-video {
+  width: 90%;
+  height: 70%;
+  border-radius: 7px;
 }
 
 .about-the-team {
