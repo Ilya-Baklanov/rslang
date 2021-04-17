@@ -1,5 +1,7 @@
 import { AnyActionCreator } from '@/redux/actions.types';
 
+import { AggregatedWord } from './response.types';
+
 interface AppProps {
   isAuth?: boolean;
 }
@@ -33,6 +35,16 @@ interface LearningCardProps {
 
 interface DictionaryProps {
   isAuth?: boolean;
+}
+
+interface MiniGameProps {
+  isAuth?: boolean;
+}
+
+interface WordCategorySwitcherProps {
+  wordCategory: string;
+  word: AggregatedWord;
+  onSwitch: () => void;
 }
 
 interface StatisticProps {
@@ -75,6 +87,8 @@ export {
   ProgressProps,
   LearningCardProps,
   DictionaryProps,
+  MiniGameProps,
+  WordCategorySwitcherProps,
   StatisticProps,
   SettingsProps,
   BurgerMenuProps,

@@ -16,10 +16,6 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
     history.push(`${currentLocation}/mini-games/${gameName}`);
   };
 
-  const redirectToLogin = () => {
-    history.push('/login');
-  };
-
   return (
     <Route exact path={`${currentLocation}/mini-games`}>
       <div className={styles['mini-games-cards-wrapper']}>
@@ -32,7 +28,7 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               английским словом или нет? Однако поспешите – время в игре ограничено
             </Card.Text>
             <Button
-              onClick={() => (isAuth ? gameRedirectionHandler('sprint') : redirectToLogin())}
+              onClick={() => gameRedirectionHandler('sprint')}
               className={styles['play-game-btn']}
             >
               Играть
@@ -51,7 +47,7 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               позднее
             </Card.Text>
             <Button
-              onClick={() => (isAuth ? gameRedirectionHandler('savannah') : redirectToLogin())}
+              onClick={() => gameRedirectionHandler('savannah')}
               className={styles['play-game-btn']}
             >
               Играть
@@ -70,7 +66,7 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               динамика
             </Card.Text>
             <Button
-              onClick={() => (isAuth ? gameRedirectionHandler('audio-call') : redirectToLogin())}
+              onClick={() => gameRedirectionHandler('audio-call')}
               className={styles['play-game-btn']}
             >
               Играть
@@ -86,7 +82,7 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               приблизитесь к совершенству. Работает только в браузере Chrome
             </Card.Text>
             <Button
-              onClick={() => (isAuth ? gameRedirectionHandler('audio-reply') : redirectToLogin())}
+              onClick={() => gameRedirectionHandler('audio-reply')}
               className={styles['play-game-btn']}
             >
               Играть

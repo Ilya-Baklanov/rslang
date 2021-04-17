@@ -1,12 +1,19 @@
+/* eslint-disable no-console */
 /* eslint no-underscore-dangle: ["error", { "allow": ["_id"] }]*/
 import React, { useState, useEffect, AnimationEvent } from 'react';
 import { Button } from 'react-bootstrap';
+import { connect } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import GameResults from '@/types/gameresult.types';
-import { AggregatedWord, AggregatedWords, Statistic } from '@/types/response.types';
+import { MiniGameProps } from '@/types/props.types';
+import {
+  AggregatedWord, AggregatedWords, Statistic, Words,
+} from '@/types/response.types';
+import { State } from '@/types/states.types';
 import getAggregatedWords from '@/utils/getAggregatedWords';
 import getStatistic from '@/utils/getStatistic';
+import getWords from '@/utils/getWords';
 import postStatistic from '@/utils/postStatistic';
 import postUserWord from '@/utils/postUserWord';
 
@@ -31,7 +38,7 @@ const infoIconDisplayDelay = 1000;
 const wordsQty = 20;
 //* *********************
 
-function Savannah(): JSX.Element {
+function Savannah({ isAuth }: MiniGameProps): JSX.Element {
   const [blow, setBlow] = useState<boolean>(false);
   const [words, setWords] = useState<number>(wordsQty);
   const [health, setHealth] = useState<number>(maxHealth);
@@ -114,34 +121,36 @@ function Savannah(): JSX.Element {
     } = statistic.optional;
 
     if (isCorrectAnswer) {
-      if (allStats[`${date}`]) {
-        allStats[`${date}`] = allStats[`${date}`] + 1;
-      } else {
-        allStats[`${date}`] = 1;
+      if (isAuth) {
+        if (allStats[`${date}`]) {
+          allStats[`${date}`] = allStats[`${date}`] + 1;
+        } else {
+          allStats[`${date}`] = 1;
+        }
+
+        if (sprintStats[`${date}`]) {
+          sprintStats[`${date}`] = sprintStats[`${date}`] + 1;
+        } else {
+          sprintStats[`${date}`] = 1;
+        }
+
+        postStatistic({
+          learnedWords: learnedWords + 1,
+          optional: {
+            audioCallStats,
+            audioReplyStats,
+            sprintStats,
+            savannahStats,
+            allStats,
+          },
+        })
+          .then((content: Statistic) => setStatistic(content))
+          .catch(() => {});
+
+        postUserWord(answerRecord._id!, 'learned', { date })
+          .then()
+          .catch(() => {});
       }
-
-      if (sprintStats[`${date}`]) {
-        sprintStats[`${date}`] = sprintStats[`${date}`] + 1;
-      } else {
-        sprintStats[`${date}`] = 1;
-      }
-
-      postStatistic({
-        learnedWords: learnedWords + 1,
-        optional: {
-          audioCallStats,
-          audioReplyStats,
-          sprintStats,
-          savannahStats,
-          allStats,
-        },
-      })
-        .then((content: Statistic) => setStatistic(content))
-        .catch(() => {});
-
-      postUserWord(answerRecord._id!, 'learned', { date })
-        .then()
-        .catch(() => {});
       setGameResults((prev: GameResults) => ({
         ...prev,
         goodAnswers: [...prev.goodAnswers, answerRecord],
@@ -156,21 +165,27 @@ function Savannah(): JSX.Element {
     setCurrentWord((prev: number) => prev + 1);
   }
 
-  useEffect(() => {
-    let cleanupFunction = false;
-    getAggregatedWords('empty', 'empty', wordsQty, filter)
-      .then((content: AggregatedWords) => {
-        if (content.paginatedResults.length < wordsQty) {
-          setFilter(filterForNewWords);
-        }
-        if (!cleanupFunction) {
+  const getStarted = () => {
+    if (isAuth) {
+      getAggregatedWords('empty', 'empty', wordsQty, filter)
+        .then((content: AggregatedWords) => {
+          if (content.paginatedResults.length < wordsQty) {
+            setFilter(filterForNewWords);
+          }
           setWordList(content.paginatedResults);
-        }
-      })
-      .catch(() => setFilter(filterForNewWords));
-    return () => {
-      cleanupFunction = true;
-    };
+        })
+        .catch(() => setFilter(filterForNewWords));
+    } else {
+      getWords(0, 0)
+        .then((content: Words) => {
+          setWordList(content);
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    getStarted();
   }, [filter]);
 
   useEffect(() => {
@@ -258,4 +273,8 @@ function Savannah(): JSX.Element {
   return <GameContainer gameScreen={SavannahGame()} controlsScreen={SavannahControls()} />;
 }
 
-export default Savannah;
+const mapStateToProps = (state: State) => ({
+  isAuth: state.authReducer?.auth,
+});
+
+export default connect(mapStateToProps, null)(Savannah);
