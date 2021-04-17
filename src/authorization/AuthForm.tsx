@@ -43,7 +43,7 @@ const AuthForm = (): JSX.Element => {
               noValidate
               validated={validated}
               className={styles['form']}
-              onSubmit={event => {
+              onSubmit={(event) => {
                 handleSubmit(event);
               }}
             >

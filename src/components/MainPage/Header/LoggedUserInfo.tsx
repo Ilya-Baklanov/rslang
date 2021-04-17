@@ -19,7 +19,7 @@ const LoggedUserInfo = ({ burgerIsActive, quitAction }: UserInfoProps) => {
 
   useMemo(() => {
     getUserInfo(token!, userId!)
-      .then(content => {
+      .then((content) => {
         setUserInfo(content);
       })
       .catch(() => quitAction!());

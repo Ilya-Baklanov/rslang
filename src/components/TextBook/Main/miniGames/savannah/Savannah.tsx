@@ -113,32 +113,32 @@ function Savannah(): JSX.Element {
       allStats,
     } = statistic.optional;
 
-    if (allStats[`${date}`]) {
-      allStats[`${date}`] = allStats[`${date}`] + 1;
-    } else {
-      allStats[`${date}`] = 1;
-    }
-
-    if (sprintStats[`${date}`]) {
-      sprintStats[`${date}`] = sprintStats[`${date}`] + 1;
-    } else {
-      sprintStats[`${date}`] = 1;
-    }
-
-    postStatistic({
-      learnedWords: learnedWords + 1,
-      optional: {
-        audioCallStats,
-        audioReplyStats,
-        sprintStats,
-        savannahStats,
-        allStats,
-      },
-    })
-      .then((content: Statistic) => setStatistic(content))
-      .catch(() => {});
-
     if (isCorrectAnswer) {
+      if (allStats[`${date}`]) {
+        allStats[`${date}`] = allStats[`${date}`] + 1;
+      } else {
+        allStats[`${date}`] = 1;
+      }
+
+      if (sprintStats[`${date}`]) {
+        sprintStats[`${date}`] = sprintStats[`${date}`] + 1;
+      } else {
+        sprintStats[`${date}`] = 1;
+      }
+
+      postStatistic({
+        learnedWords: learnedWords + 1,
+        optional: {
+          audioCallStats,
+          audioReplyStats,
+          sprintStats,
+          savannahStats,
+          allStats,
+        },
+      })
+        .then((content: Statistic) => setStatistic(content))
+        .catch(() => {});
+
       postUserWord(answerRecord._id, 'learned', { date })
         .then()
         .catch(() => {});
@@ -147,9 +147,6 @@ function Savannah(): JSX.Element {
         goodAnswers: [...prev.goodAnswers, answerRecord],
       }));
     } else {
-      postUserWord(answerRecord._id, 'repeat', { date })
-        .then()
-        .catch(() => {});
       setGameResults((prev: GameResults) => ({
         ...prev,
         badAnswers: [...prev.badAnswers, answerRecord],
@@ -245,7 +242,7 @@ function Savannah(): JSX.Element {
   function SavannahControls(): JSX.Element {
     return (
       <div className={savannahStyles['savannah-controls']}>
-        {responseSequence.map(button => (
+        {responseSequence.map((button) => (
           <Button
             key={wordsList[button]._id}
             variant="outline-secondary"

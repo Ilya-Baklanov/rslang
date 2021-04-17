@@ -30,23 +30,23 @@ export default class Auth {
 
     let avatarUrl = '';
 
-    avatar?.addEventListener('change', e => {
+    avatar?.addEventListener('change', (e) => {
       const target = e.target as HTMLInputElement;
       const file: File = (target.files as FileList)[0];
       if (file['size'] > 5242880) {
         errImg.innerHTML = 'Размер картинки превышает 5 MB';
       } else {
         getAvatar(avatar)
-          .then(content => {
+          .then((content) => {
             avatarUrl = content.url;
           })
-          .catch(er => {
+          .catch((er) => {
             errServ.innerHTML = er.message || '';
           });
       }
     });
 
-    registerButton?.addEventListener('click', e => {
+    registerButton?.addEventListener('click', (e) => {
       // get user info
       const userName = document.querySelector('#user-name') as HTMLInputElement;
       const mail = document.querySelector('#login-reg-form') as HTMLInputElement;
@@ -85,7 +85,7 @@ export default class Auth {
           .then(() => {
             localStorage.setItem('isAuth', 'true');
             loginUser(loginUserObject)
-              .then(content => {
+              .then((content) => {
                 const { userId, token } = content;
 
                 const authJson: AuthData = {
@@ -118,7 +118,7 @@ export default class Auth {
                   },
                 })
                   .then(() => console.log('success'))
-                  .catch(err => console.log(err));
+                  .catch((err) => console.log(err));
 
                 putUserSettings(10, {
                   wordTranslate: true,
@@ -128,16 +128,16 @@ export default class Auth {
                   deleteButton: true,
                 })
                   .then(() => console.log('success'))
-                  .catch(err => console.log(err));
+                  .catch((err) => console.log(err));
               })
-              .catch(er => {
+              .catch((er) => {
                 localStorage.setItem('isAuth', 'false');
                 localStorage.removeItem('userId');
                 localStorage.removeItem('token');
                 errServ.innerHTML = getErrors(er.stack) || '';
               });
           })
-          .catch(er => {
+          .catch((er) => {
             localStorage.setItem('isAuth', 'false');
             localStorage.removeItem('userId');
             localStorage.removeItem('token');
@@ -163,7 +163,7 @@ export default class Auth {
 
       // log the user in
       loginUser(loginUserObject)
-        .then(content => {
+        .then((content) => {
           localStorage.setItem('isAuth', 'true');
 
           const { userId, token } = content;
@@ -177,7 +177,7 @@ export default class Auth {
           localStorage.setItem('token', token);
           store.dispatch(authAction(authJson));
         })
-        .catch(er => {
+        .catch((er) => {
           localStorage.setItem('isAuth', 'false');
           localStorage.removeItem('userId');
           localStorage.removeItem('token');

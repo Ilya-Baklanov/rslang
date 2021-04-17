@@ -191,11 +191,14 @@ div.statistics {
   }
 }
 
-.developer1-card, .developer2-card {
+.developer1-card,
+.developer2-card {
   margin-right: 30px;
 }
 
-.developer1-card, .developer2-card, .developer3-card {
+.developer1-card,
+.developer2-card,
+.developer3-card {
   @media (min-width: 1200px) {
     width: 18rem;
   }

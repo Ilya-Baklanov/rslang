@@ -56,7 +56,7 @@ const RegistrationForm = () => {
               noValidate
               validated={validated}
               className={styles['form']}
-              onSubmit={event => {
+              onSubmit={(event) => {
                 handleSubmit(event);
               }}
             >

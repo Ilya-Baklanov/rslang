@@ -16,6 +16,10 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
     history.push(`${currentLocation}/mini-games/${gameName}`);
   };
 
+  const redirectToLogin = () => {
+    history.push('/login');
+  };
+
   return (
     <Route exact path={`${currentLocation}/mini-games`}>
       <div className={styles['mini-games-cards-wrapper']}>
@@ -28,7 +32,7 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               английским словом или нет? Однако поспешите – время в игре ограничено
             </Card.Text>
             <Button
-              onClick={() => gameRedirectionHandler('sprint')}
+              onClick={() => (isAuth ? gameRedirectionHandler('sprint') : redirectToLogin())}
               className={styles['play-game-btn']}
             >
               Играть
@@ -47,7 +51,7 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               позднее
             </Card.Text>
             <Button
-              onClick={() => gameRedirectionHandler('savannah')}
+              onClick={() => (isAuth ? gameRedirectionHandler('savannah') : redirectToLogin())}
               className={styles['play-game-btn']}
             >
               Играть
@@ -66,7 +70,7 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               динамика
             </Card.Text>
             <Button
-              onClick={() => gameRedirectionHandler('audio-call')}
+              onClick={() => (isAuth ? gameRedirectionHandler('audio-call') : redirectToLogin())}
               className={styles['play-game-btn']}
             >
               Играть
@@ -82,7 +86,7 @@ const MiniGamesCards = ({ isAuth }: MiniGamesCardsProps): JSX.Element => {
               приблизитесь к совершенству. Работает только в браузере Chrome
             </Card.Text>
             <Button
-              onClick={() => gameRedirectionHandler('audio-reply')}
+              onClick={() => (isAuth ? gameRedirectionHandler('audio-reply') : redirectToLogin())}
               className={styles['play-game-btn']}
             >
               Играть

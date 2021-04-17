@@ -17,7 +17,7 @@ export const errorsAuth = [
   },
 ];
 export const getErrors = (value: string): string | null => {
-  const error = errorsAuth.find(x => x.value === value);
+  const error = errorsAuth.find((x) => x.value === value);
   if (error) {
     return error.name;
   }
